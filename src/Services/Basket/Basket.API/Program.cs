@@ -1,13 +1,19 @@
+using Basket.API.Extensions;
 using Common.Logging;
 using Serilog;
 
-var builder = WebApplication.CreateBuilder(args);
-builder.Host.UseSerilog(Serilogger.Configure);
+Log.Logger = new LoggerConfiguration().WriteTo.Console().CreateBootstrapLogger();
 
-Log.Information("Starting basket API up");
+var builder = WebApplication.CreateBuilder(args);
+
+Log.Information($"Start {builder.Environment.ApplicationName} up");
 
 try
 {
+    builder.Host.UseSerilog(Serilogger.Configure);
+    builder.Host.AddAppConfigurations();
+    builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
+
     builder.Services.AddControllers();
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
@@ -17,16 +23,23 @@ try
     if (app.Environment.IsDevelopment())
     {
         app.UseSwagger();
-        app.UseSwaggerUI();
+        app.UseSwaggerUI(
+            c => c.SwaggerEndpoint("/swagger/v1/swagger.json", $"{builder.Environment.ApplicationName} v1"));
     }
 
-    app.UseHttpsRedirection();
+    // app.UseHttpsRedirection();
     app.UseAuthorization();
-    app.MapControllers();
+    app.MapDefaultControllerRoute();
     app.Run();
 }
 catch (Exception ex)
 {
+    var type = ex.GetType().Name;
+    if (type.Equals("StopTheHostException", StringComparison.Ordinal))
+    {
+        throw;
+    }
+
     Log.Fatal(ex, "Unhandled exception");
 }
 finally

@@ -8,6 +8,9 @@ services:
   customerdb:
     image: postgres:alpine3.16
     
+  basketdb:
+    image: redis:alpine
+    
   #infrastructure section
   pgadmin:
     image: dpage/pgadmin4

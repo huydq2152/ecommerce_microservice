@@ -1,23 +1,25 @@
-using Common.Logging;
-using Contracts.Common.Interfaces;
 using Customer.API;
 using Customer.API.Controller;
+using Customer.API.Extensions;
 using Customer.API.Persistence;
 using Customer.API.Repositories;
 using Customer.API.Repositories.Interface;
 using Customer.API.Services;
 using Customer.API.Services.Interface;
-using Infrastructure.Common;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
+Log.Logger = new LoggerConfiguration().WriteTo.Console().CreateBootstrapLogger();
 var builder = WebApplication.CreateBuilder(args);
-builder.Host.UseSerilog(Serilogger.Configure);
 
-Log.Information("Starting customer API up");
+Log.Information($"Start {builder.Environment.ApplicationName} up");
 
 try
 {
+    builder.Host.AddAppConfigurations();
+    builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
+
+    // add service to the container
     builder.Services.AddControllers();
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
@@ -27,7 +29,7 @@ try
     builder.Services.AddDbContext<CustomerContext>(optionsBuilder => optionsBuilder.UseNpgsql(connectionString));
     builder.Services.AddScoped<ICustomerRepository, CustomerRepository>()
         .AddScoped<ICustomerService, CustomerService>();
-    
+
     var app = builder.Build();
 
     //Minimal API
@@ -36,12 +38,13 @@ try
     if (app.Environment.IsDevelopment())
     {
         app.UseSwagger();
-        app.UseSwaggerUI();
+        app.UseSwaggerUI(
+            c => c.SwaggerEndpoint("/swagger/v1/swagger.json", $"{builder.Environment.ApplicationName} v1"));
     }
 
     //app.UseHttpsRedirection(); //production only
     app.UseAuthorization();
-    app.MapControllers();
+    app.MapDefaultControllerRoute();
     app.SeedCustomerData()
         .Run();
 }

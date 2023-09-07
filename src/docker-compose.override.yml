@@ -2,6 +2,8 @@ version: '3.8'
 
 services:
   #database section
+  
+  #productdb: mysql
   productdb:
     container_name: productdb
     environment:
@@ -12,6 +14,7 @@ services:
     ports:
       - "3306:3306"
         
+  #customerdb: postgres
   customerdb:
     container_name: customerdb
     environment:
@@ -24,6 +27,13 @@ services:
       - "5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+  
+  #basketdb: redis
+  basketdb:
+    container_name: basketdb
+    restart: always
+    ports:
+      - "6379:6379"
     
   #infrastructure section
   pgadmin:
