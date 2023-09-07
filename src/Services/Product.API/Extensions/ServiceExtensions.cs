@@ -42,7 +42,7 @@ public static class ServiceExtensions
 
     private static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
     {
-        return services.AddScoped(typeof(IRepositoryBaseAsync<,,>), typeof(RepositoryBaseAsync<,,>))
+        return services.AddScoped(typeof(IRepositoryBaseAsync<,,>), typeof(RepositoryBase<,,>))
             .AddScoped(typeof(IUnitOfWork<>), typeof(UnitOfWork<>))
             .AddScoped<IProductRepository, ProductRepository>();
     }

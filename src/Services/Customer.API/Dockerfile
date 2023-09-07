@@ -9,15 +9,16 @@ COPY ["BuildingBlocks/Common.Logging/Common.Logging.csproj", "BuildingBlocks/Com
 COPY ["BuildingBlocks/Contracts/Contracts.csproj", "BuildingBlocks/Contracts/"]
 COPY ["BuildingBlocks/Infrastructure/Infrastructure.csproj", "BuildingBlocks/Infrastructure/"]
 COPY ["BuildingBlocks/Shared/Shared.csproj", "BuildingBlocks/Shared/"]
+
 RUN dotnet restore "Services/Customer.API/Customer.API.csproj"
 COPY . .
-WORKDIR "/src/Services/Product.API"
+WORKDIR "/src/Services/Customer.API"
 RUN dotnet build "Customer.API.csproj" -c Release -o /app/build
 
 FROM build AS publish
 RUN dotnet publish "Customer.API.csproj" -c Release -o /app/publish
 
-FROM base as final
+FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "Customer.API.dll"]

@@ -1,5 +1,7 @@
 using Common.Logging;
 using Contracts.Common.Interfaces;
+using Customer.API;
+using Customer.API.Controller;
 using Customer.API.Persistence;
 using Customer.API.Repositories;
 using Customer.API.Repositories.Interface;
@@ -19,26 +21,17 @@ try
     builder.Services.AddControllers();
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
+    builder.Services.AddAutoMapper(cfg => cfg.AddProfile(new MappingProfile()));
 
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnectionString");
     builder.Services.AddDbContext<CustomerContext>(optionsBuilder => optionsBuilder.UseNpgsql(connectionString));
     builder.Services.AddScoped<ICustomerRepository, CustomerRepository>()
-        .AddScoped<ICustomerService, CustomerService>()
-        .AddScoped(typeof(IRepositoryBaseAsync<,,>), typeof(RepositoryBaseAsync<,,>))
-        .AddScoped(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
-
+        .AddScoped<ICustomerService, CustomerService>();
+    
     var app = builder.Build();
 
     //Minimal API
-    app.MapGet("/", () => "Welcome to customer API");
-    app.MapGet("/api/customers", async (ICustomerService customerService) => await customerService.GetCustomersAsync());
-    app.MapGet("/api/customers/{username}",
-        async (ICustomerService customerService, string userName) =>
-        {
-            var customer = await customerService.GetCustomerByUserNameAsync(userName);
-            return customer != null ? Results.Ok(customer) : Results.NotFound();
-        }
-    );
+    app.MapCustomerAPI();
 
     if (app.Environment.IsDevelopment())
     {
@@ -46,7 +39,7 @@ try
         app.UseSwaggerUI();
     }
 
-    app.UseHttpsRedirection();
+    //app.UseHttpsRedirection(); //production only
     app.UseAuthorization();
     app.MapControllers();
     app.SeedCustomerData()

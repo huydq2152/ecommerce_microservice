@@ -9,6 +9,9 @@ services:
     image: postgres:alpine3.16
     
   #infrastructure section
+  pgadmin:
+    image: dpage/pgadmin4
+  
   portainer:
     image: portainer/portainer-ce
   
@@ -19,11 +22,11 @@ services:
       context: .
       dockerfile: Services/Product.API/Dockerfile
       
-#  customer.api:
-#    image: ${DOCKER_REGISTRY-}customer-api:${PLATFORM:-linux}-${TAG:-latest}
-#    build:
-#      context: .
-#      dockerfile: Services/Customer.API/Dockerfile
+  customer.api:
+    image: ${DOCKER_REGISTRY-}customer-api:${PLATFORM:-linux}-${TAG:-latest}
+    build:
+      context: .
+      dockerfile: Services/Customer.API/Dockerfile
 
 #network section
 networks:
@@ -39,3 +42,5 @@ volumes:
     name: mysql_data
   postgres_data:
     name: postgres_data
+  pgadmin_data:
+    name: pgadmin_data
