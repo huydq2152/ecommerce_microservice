@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+  #database section
+  productdb:
+    container_name: productdb
+    environment:
+      MYSQL_ROOT_PASSWORD: "Passw0rd!"
+    restart: always
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+        
+  customerdb:
+    container_name: customerdb
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin1234
+      - POSTGRES_DB=CustomerDb
+    restart: always
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    
+  #infrastructure section
+  portainer:
+    container_name: portainer
+    restart: always
+    ports:
+      - "8080:8000"
+      - "9000:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+  
+  #microservices api sections
+  product.api:
+    container_name: product.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - "DatabaseSettings:ConnectionString=Server=productdb;Port=3306;Database=ProductDb;Uid=root;Pwd=Passw0rd!"
+      - "ApiConfiguration:ApiBaseUrl=http://product.api"
+      - "ApiConfiguration:IdentityServerBaseUrl=http://localhost:6001"
+      - "ApiConfiguration:IssuerUri=http://tedu.identity.api"
+    depends_on:
+      - productdb
+    ports:
+      - "6002:80"
+    restart: always
+  
+#  customer.api:
+#    container_name: customer.api
+#    environment:
+#      - ASPNETCORE_ENVIRONMENT=Development
+#      - ASPNETCORE_URLS=http://+:80
+#      - "DatabaseSettings:ConnectionString=Server=customerdb;Port=5432;Database=CustomerDb;User Id=admin;Password=admin1234"
+#      - "HangFireSettings:Storage:ConnectionString=Server=customerdb;Port=5432;Database=CustomerDb;User Id=admin;Password=admin1234"
+#    depends_on:
+#      - customerdb
+#    ports:
+#      - "6003:80"
+#    restart: always

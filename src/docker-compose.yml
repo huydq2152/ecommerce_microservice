@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  #database section
+  productdb:
+    image: mysql:8.0.29
+    
+  customerdb:
+    image: postgres:alpine3.16
+    
+  #infrastructure section
+  portainer:
+    image: portainer/portainer-ce
+  
+  #microservice api section
+  product.api:
+    image: ${DOCKER_REGISTRY-}product-api:${PLATFORM:-linux}-${TAG:-latest}
+    build:
+      context: .
+      dockerfile: Services/Product.API/Dockerfile
+      
+#  customer.api:
+#    image: ${DOCKER_REGISTRY-}customer-api:${PLATFORM:-linux}-${TAG:-latest}
+#    build:
+#      context: .
+#      dockerfile: Services/Customer.API/Dockerfile
+
+#network section
+networks:
+  default:
+    name: tedu_microservices
+    driver: bridge
+
+#volumes section
+volumes:
+  portainer_data:
+    name: portainer_data
+  mysql_data:
+    name: mysql_data
+  postgres_data:
+    name: postgres_data
