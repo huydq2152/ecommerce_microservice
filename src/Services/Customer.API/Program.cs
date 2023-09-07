@@ -20,16 +20,12 @@ try
     builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
 
     // add service to the container
+    builder.Services.AddConfigurationSetting(builder.Configuration);
     builder.Services.AddControllers();
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
     builder.Services.AddAutoMapper(cfg => cfg.AddProfile(new MappingProfile()));
-
-    var connectionString = builder.Configuration.GetConnectionString("DefaultConnectionString");
-    builder.Services.AddDbContext<CustomerContext>(optionsBuilder => optionsBuilder.UseNpgsql(connectionString));
-    builder.Services.AddScoped<ICustomerRepository, CustomerRepository>()
-        .AddScoped<ICustomerService, CustomerService>();
-
+    
     var app = builder.Build();
 
     //Minimal API
