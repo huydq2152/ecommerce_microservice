@@ -35,7 +35,7 @@ try
 
     app.UseHttpsRedirection();
     app.UseAuthorization();
-    app.MapControllers();
+    app.MapDefaultControllerRoute();
     app.Run();
 }
 catch (Exception ex)

@@ -10,9 +10,9 @@ public class PerformanceBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequ
     private readonly Stopwatch _stopwatch;
     private readonly ILogger _logger;
 
-    public PerformanceBehaviour(Stopwatch stopwatch, ILogger logger)
+    public PerformanceBehaviour(ILogger logger)
     {
-        _stopwatch = stopwatch;
+        _stopwatch = new Stopwatch();
         _logger = logger;
     }
 

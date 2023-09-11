@@ -2,7 +2,7 @@
 using Ordering.Application.Common.Models;
 using Shared.SeedWork;
 
-namespace Ordering.Application.Features.V1.Order.Queries.GetOrders;
+namespace Ordering.Application.Features.V1.Order;
 
 public class GetOrderQuery : IRequest<ApiResult<List<OrderDto>>>
 {
