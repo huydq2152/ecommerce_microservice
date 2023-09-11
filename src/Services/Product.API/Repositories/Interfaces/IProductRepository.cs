@@ -4,7 +4,7 @@ using Product.API.Persistence;
 
 namespace Product.API.Repositories.Interfaces;
 
-public interface IProductRepository : IRepositoryBaseAsync<CatalogProduct, long, ProductContext>
+public interface IProductRepository : IRepositoryBase<CatalogProduct, long, ProductContext>
 {
     Task<IEnumerable<CatalogProduct>> GetProducts();
 

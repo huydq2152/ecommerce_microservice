@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Contracts.Common.Interfaces;
 
-public interface IRepositoryQueryBase<T, K, TContext> where T : EntityBase<K> where TContext : DbContext
+public interface IRepositoryQueryBase<T, K> where T : EntityBase<K>
 {
     IQueryable<T> FindAll(bool trackChanges = false);
 
@@ -21,8 +21,13 @@ public interface IRepositoryQueryBase<T, K, TContext> where T : EntityBase<K> wh
     Task<T> GetByIdAsync(K id, params Expression<Func<T, object>>[] includeProperties);
 }
 
-public interface IRepositoryBaseAsync<T, K, TContext> : IRepositoryQueryBase<T, K, TContext>
+public interface IRepositoryQueryBase<T, K, TContext> : IRepositoryQueryBase<T, K>
+    where T : EntityBase<K>
     where TContext : DbContext
+{
+}
+
+public interface IRepositoryBase<T, K> : IRepositoryQueryBase<T, K>
     where T : EntityBase<K>
 {
     Task<K> CreateAsync(T entity);
@@ -45,4 +50,10 @@ public interface IRepositoryBaseAsync<T, K, TContext> : IRepositoryQueryBase<T, 
     Task EndTransactionAsync();
 
     Task RollbackTransactionAsync();
+}
+
+public interface IRepositoryBase<T, K, TContext> : IRepositoryBase<T, K>
+    where TContext : DbContext
+    where T : EntityBase<K>
+{
 }

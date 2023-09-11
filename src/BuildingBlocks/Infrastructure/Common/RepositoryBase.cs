@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 namespace Infrastructure.Common;
 
 public class RepositoryBase<T, K, TContext> : RepositoryQueryBase<T, K, TContext>,
-    IRepositoryBaseAsync<T, K, TContext>
+    IRepositoryBase<T, K, TContext>
     where TContext : DbContext
     where T : EntityBase<K>
 {
