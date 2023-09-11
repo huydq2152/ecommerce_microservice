@@ -1,4 +1,6 @@
 using Common.Logging;
+using Ordering.Infrastructure;
+using Ordering.Infrastructure.Persistence;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +10,8 @@ Log.Information("Starting ordering API up");
 
 try
 {
+    builder.Services.AddInfrastructureService(builder.Configuration);
+
     builder.Services.AddControllers();
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
@@ -20,6 +24,13 @@ try
         app.UseSwaggerUI();
     }
 
+    using (var scope = app.Services.CreateScope())
+    {
+        var orderContextSeed = scope.ServiceProvider.GetRequiredService<OrderContextSeed>();
+        await orderContextSeed.InitialiseAsync();
+        await orderContextSeed.SeedAsync();
+    }
+
     app.UseHttpsRedirection();
     app.UseAuthorization();
     app.MapControllers();
@@ -27,6 +38,12 @@ try
 }
 catch (Exception ex)
 {
+    var type = ex.GetType().Name;
+    if (type.Equals("StopTheHostException", StringComparison.Ordinal))
+    {
+        throw;
+    }
+
     Log.Fatal(ex, "Unhandled exception");
 }
 finally

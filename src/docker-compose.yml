@@ -2,6 +2,9 @@ version: '3.8'
 
 services:
   #database section
+  orderdb:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+  
   productdb:
     image: mysql:8.0.29
     
@@ -47,6 +50,8 @@ networks:
 volumes:
   portainer_data:
     name: portainer_data
+  sqlserver_data:
+    name: sqlserver_data
   mysql_data:
     name: mysql_data
   postgres_data:

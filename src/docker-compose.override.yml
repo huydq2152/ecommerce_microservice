@@ -3,6 +3,18 @@ version: '3.8'
 services:
   #database section
   
+  #orderdb: sql server
+  orderdb:
+    container_name: orderdb
+    environment:
+      SA_PASSWORD: "Passw0rd!"
+      ACCEPT_EULA: "Y"
+    restart: always
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+    ports:
+      - "1435:1433"
+  
   #productdb: mysql
   productdb:
     container_name: productdb
