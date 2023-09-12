@@ -3,18 +3,6 @@ version: '3.8'
 services:
   #database section
   
-  #orderdb: sql server
-  orderdb:
-    container_name: orderdb
-    environment:
-      SA_PASSWORD: "Passw0rd!"
-      ACCEPT_EULA: "Y"
-    restart: always
-    volumes:
-      - sqlserver_data:/var/opt/mssql
-    ports:
-      - "1435:1433"
-  
   #productdb: mysql
   productdb:
     container_name: productdb
@@ -25,7 +13,7 @@ services:
       - mysql_data:/var/lib/mysql
     ports:
       - "3306:3306"
-        
+  
   #customerdb: postgres
   customerdb:
     container_name: customerdb
@@ -46,7 +34,19 @@ services:
     restart: always
     ports:
       - "6379:6379"
-    
+  
+  #orderdb: sql server
+  orderdb:
+    container_name: orderdb
+    environment:
+      SA_PASSWORD: "Passw0rd!"
+      ACCEPT_EULA: "Y"
+    restart: always
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+    ports:
+      - "1435:1433"
+  
   #infrastructure section
   pgadmin:
     container_name: pgadmin
@@ -96,7 +96,7 @@ services:
     ports:
       - "6003:80"
     restart: always
-    
+  
   basket.api:
     container_name: basket.api
     environment:
@@ -107,4 +107,16 @@ services:
       - basketdb
     ports:
       - "6004:80"
+    restart: always
+  
+  ordering.api:
+    container_name: ordering.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - "ConnectionStrings:DefaultConnectionString=Server=orderdb;Database=OrderDb;User Id=sa;Password=Passw0rd!;Multipleactiveresultsets=true;TrustServerCertificate=True"
+    depends_on:
+      - orderdb
+    ports:
+      - "6005:80"
     restart: always
