@@ -1,7 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Net;
+using AutoMapper;
 using Basket.API.Entities;
 using Basket.API.Repositories.Interface;
+using EventBus.Messages.IntegrationEvents.Events;
+using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
 
@@ -11,18 +14,22 @@ namespace Basket.API.Controllers;
 [Route("api/[controller]")]
 public class BasketController : ControllerBase
 {
-    private readonly IBasketRepository _repository;
+    private readonly IBasketRepository _basketRepository;
+    private readonly IMapper _mapper;
+    private readonly IPublishEndpoint _publishEndpoint;
 
-    public BasketController(IBasketRepository repository)
+    public BasketController(IBasketRepository basketRepository, IMapper mapper, IPublishEndpoint publishEndpoint)
     {
-        _repository = repository;
+        _basketRepository = basketRepository;
+        _mapper = mapper;
+        _publishEndpoint = publishEndpoint;
     }
 
     [HttpGet("{userName}", Name = "GetBasket")]
     [ProducesResponseType(typeof(Cart), (int)HttpStatusCode.OK)]
     public async Task<ActionResult<Cart>> GetBasketByUserName([Required] string userName)
     {
-        var result = await _repository.GetBasketByUserName(userName);
+        var result = await _basketRepository.GetBasketByUserName(userName);
         return Ok(result ?? new Cart());
     }
 
@@ -33,7 +40,7 @@ public class BasketController : ControllerBase
         var option = new DistributedCacheEntryOptions()
             .SetAbsoluteExpiration(DateTime.UtcNow.AddHours(1))
             .SetSlidingExpiration(TimeSpan.FromMinutes(5));
-        var result = await _repository.UpdateBasket(cart, option);
+        var result = await _basketRepository.UpdateBasket(cart, option);
         return Ok(result);
     }
 
@@ -41,7 +48,25 @@ public class BasketController : ControllerBase
     [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
     public async Task<ActionResult<bool>> DeleteBasket([Required] string userName)
     {
-        var result = await _repository.DeleteBasketByUserName(userName);
+        var result = await _basketRepository.DeleteBasketByUserName(userName);
         return Ok(result);
+    }
+
+    [Route("[action]")]
+    [HttpPost]
+    [ProducesResponseType((int)HttpStatusCode.Accepted)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    public async Task<IActionResult> Checkout([FromBody] BasketCheckout basketCheckout)
+    {
+        var basket = await _basketRepository.GetBasketByUserName(basketCheckout.UserName);
+        if (basket == null) return NotFound();
+
+        var eventMessage = _mapper.Map<BasketCheckoutEvent>(basketCheckout);
+        eventMessage.TotalPrice = basket.TotalPrice;
+        await _publishEndpoint.Publish(eventMessage);
+
+        await _basketRepository.DeleteBasketByUserName(basketCheckout.UserName);
+
+        return Accepted();
     }
 }

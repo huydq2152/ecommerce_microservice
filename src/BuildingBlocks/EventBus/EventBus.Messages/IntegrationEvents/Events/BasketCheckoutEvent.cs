@@ -1,20 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using EventBus.Messages.IntegrationEvents.Interface;
 
-namespace Basket.API.Entities;
+namespace EventBus.Messages.IntegrationEvents.Events;
 
-public class BasketCheckout
+public record BasketCheckoutEvent() : IntegrationBaseEvent, IBasketCheckoutEvent
 {
-    [Required]
     public string UserName { get; set; }
-    [Required]
+    public decimal TotalPrice { get; set; }
     public string FirstName { get; set; }
-    [Required]
     public string LastName { get; set; }
-    [Required]
-    [EmailAddress]
     public string EmailAddress { get; set; }
-    [Required]
     public string ShippingAddress { get; set; }
-    [Required]
     public string InvoiceAddress { get; set; }
 }

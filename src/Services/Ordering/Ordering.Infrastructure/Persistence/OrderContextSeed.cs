@@ -52,12 +52,14 @@ public class OrderContextSeed
             await _context.Orders.AddRangeAsync(
                 new Order()
                 {
+                    DocumentNo = Guid.NewGuid(),
                     UserName = "customer1", FirstName = "customer1", LastName = "customer2",
                     EmailAddress = "customer1@local.com",
                     ShippingAddress = "Wollongong", InvoiceAddress = "Australia", TotalPrice = 250
                 },
                 new Order()
                 {
+                    DocumentNo = Guid.NewGuid(),
                     UserName = "customer2", FirstName = "customer2", LastName = "customer2",
                     EmailAddress = "customer2@local.com",
                     ShippingAddress = "Alex", InvoiceAddress = "Australia", TotalPrice = 100

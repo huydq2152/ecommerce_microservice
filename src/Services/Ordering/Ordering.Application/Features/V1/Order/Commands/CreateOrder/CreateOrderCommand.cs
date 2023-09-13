@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using EventBus.Messages.IntegrationEvents.Events;
 using MediatR;
 using Ordering.Application.Common.Mappings;
 using Ordering.Application.Features.V1.Order.Common;
@@ -15,5 +16,6 @@ public class CreateOrderCommand: CreateOrUpdateOrderCommand, IRequest<ApiResult<
     {
         profile.CreateMap<CreateOrderDto, CreateOrderCommand>();
         profile.CreateMap<CreateOrderCommand, Domain.Entities.Order>();
+        profile.CreateMap<BasketCheckoutEvent, CreateOrderCommand>();
     }
 }

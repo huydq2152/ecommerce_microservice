@@ -16,11 +16,15 @@ services:
     image: mcr.microsoft.com/mssql/server:2019-latest
   
   #infrastructure section
+  
   pgadmin:
     image: dpage/pgadmin4
   
   portainer:
     image: portainer/portainer-ce
+    
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
   
   #microservice api section
   product.api:
@@ -65,3 +69,5 @@ volumes:
     name: pgadmin_data
   sqlserver_data:
     name: sqlserver_data
+  rabbitmq_data:
+    name: rabbitmq_data

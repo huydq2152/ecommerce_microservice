@@ -1,3 +1,4 @@
+using Basket.API;
 using Basket.API.Extensions;
 using Common.Logging;
 using Serilog;
@@ -12,10 +13,14 @@ try
 {
     builder.Host.UseSerilog(Serilogger.Configure);
     builder.Host.AddAppConfigurations();
+    builder.Services.AddConfigurationSettings(builder.Configuration);
+    builder.Services.AddAutoMapper(config => config.AddProfile(new MappingProfile()));
 
     builder.Services.ConfigureService();
     builder.Services.ConfigureRedisCache(builder.Configuration);
     builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
+
+    builder.Services.ConfigureMasstransit();
 
     builder.Services.AddControllers();
     builder.Services.AddEndpointsApiExplorer();

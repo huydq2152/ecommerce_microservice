@@ -9,6 +9,8 @@ public class Order : EntityAuditBase<long>
 {
     [Required]
     public string UserName { get; set; }
+    
+    public Guid DocumentNo { get; set; } = Guid.NewGuid();
 
     [Column(TypeName = "decimal(10,2)")]
     public decimal TotalPrice { get; set; }
