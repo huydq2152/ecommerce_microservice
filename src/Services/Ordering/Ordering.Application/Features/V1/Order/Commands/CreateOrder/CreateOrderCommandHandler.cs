@@ -21,14 +21,15 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Api
     }
 
     private const string MethodName = "CreateOrderCommandHandler";
-    
+
     public async Task<ApiResult<long>> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
     {
         _logger.Information($"BEGIN: {MethodName} - Username: {request.UserName}");
         var orderEntity = _mapper.Map<Domain.Entities.Order>(request);
         _orderRepository.CreateOrder(orderEntity);
+        orderEntity.AddedOrder();
         await _orderRepository.SaveChangeAsync();
-        
+
         _logger.Information($"END: {MethodName} - Username: {request.UserName}");
         return new ApiSuccessResult<long>(orderEntity.Id);
     }
