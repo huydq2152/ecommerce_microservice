@@ -1,16 +1,22 @@
 using Common.Logging;
+using Inventory.API.Extensions;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseSerilog(Serilogger.Configure);
 
-Log.Information("Starting inventory API up");
+Log.Information($"Start {builder.Environment.ApplicationName} up");
 
 try
 {
     builder.Services.AddControllers();
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
+    builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
+
+    builder.Services.AddConfigurationSettings(builder.Configuration);
+    builder.Services.AddInfrastructureServices();
+    builder.Services.ConfigureMongoDbClient();
 
     var app = builder.Build();
 
@@ -20,13 +26,17 @@ try
         app.UseSwaggerUI();
     }
 
-    app.UseHttpsRedirection();
+    // app.UseHttpsRedirection();
     app.UseAuthorization();
-    app.MapControllers();
-    app.Run();
+    app.MapDefaultControllerRoute();
+    app.MigrateDatabase().Run();
 }
 catch (Exception ex)
 {
+    string type = ex.GetType().Name;
+    if (type.Equals("StopTheHostException", StringComparison.Ordinal)) throw;
+
+    Log.Fatal(ex, $"Unhandled exception: {ex.Message}");
     Log.Fatal(ex, "Unhandled exception");
 }
 finally

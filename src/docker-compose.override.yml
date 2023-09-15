@@ -46,6 +46,15 @@ services:
       - sqlserver_data:/var/opt/mssql
     ports:
       - "1435:1433"
+        
+  #inventorydb: mongo
+  inventorydb:
+    container_name: inventorydb
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
   
   #infrastructure section
   pgadmin:

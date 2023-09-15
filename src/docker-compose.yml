@@ -14,6 +14,9 @@ services:
   
   orderdb:
     image: mcr.microsoft.com/mssql/server:2019-latest
+    
+  inventorydb:
+    image: mongo
   
   #infrastructure section
   
@@ -71,3 +74,5 @@ volumes:
     name: sqlserver_data
   rabbitmq_data:
     name: rabbitmq_data
+  mongo_data:
+    name: mongo_data
