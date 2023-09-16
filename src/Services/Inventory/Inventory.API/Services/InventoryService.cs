@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Infrastructure.Common.Models;
+using Infrastructure.Extensions;
 using Inventory.API.Entities;
 using Inventory.API.Extensions;
 using Inventory.API.Repositories.Abstraction;
@@ -35,10 +37,10 @@ public class InventoryService : MongoDbRepository<InventoryEntry>, IInventorySer
         }
 
         var andFilter = filterItemNo & filterSearchTerm;
-        var pagedList = await Collection.Find(andFilter).Skip((query.CurrentPage - 1) * query.PageSize)
-            .Limit(query.PageSize)
-            .ToListAsync();
-        var result = _mapper.Map<IEnumerable<InventoryEntryDto>>(pagedList);
+        var pagedList = await Collection.PaginatedListAsync(andFilter, query.CurrentPage, query.PageSize);
+        var items = _mapper.Map<IEnumerable<InventoryEntryDto>>(pagedList);
+        var result = new PagedList<InventoryEntryDto>(items, pagedList.GetMetaData().TotalItems, query.CurrentPage,
+            query.PageSize);
         return result;
     }
 
