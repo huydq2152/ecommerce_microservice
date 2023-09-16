@@ -27,7 +27,7 @@ public class InventoryService : MongoDbRepository<InventoryEntry>, IInventorySer
         return result;
     }
 
-    public async Task<IEnumerable<InventoryEntryDto>> GetAllByItemNoPagingAsync(GetInventoryPagingQuery query)
+    public async Task<PagedList<InventoryEntryDto>> GetAllByItemNoPagingAsync(GetInventoryPagingQuery query)
     {
         var filterSearchTerm = Builders<InventoryEntry>.Filter.Empty;
         var filterItemNo = Builders<InventoryEntry>.Filter.Eq(o => o.ItemNo, query.ItemNo());
@@ -52,13 +52,13 @@ public class InventoryService : MongoDbRepository<InventoryEntry>, IInventorySer
         return result;
     }
 
-    public async Task<InventoryEntryDto> PurchaseItemAsync(string itemNo, PurchaseProductDto model)
+    public async Task<InventoryEntryDto> PurchaseItemAsync(PurchaseProductDto model)
     {
         var entity = new InventoryEntry(ObjectId.GenerateNewId().ToString())
         {
             ItemNo = model.ItemNo,
             Quantity = model.Quantity,
-            DocumentType = model.EDocumentType,
+            DocumentType = model.EDocumentType
         };
         await CreateAsync(entity);
         var result = _mapper.Map<InventoryEntryDto>(entity);
