@@ -3,7 +3,7 @@ using Contracts.Common.Interfaces;
 using Contracts.Domains;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Common;
+namespace Infrastructure.Common.Repositories;
 
 public class RepositoryQueryBase<T, K, TContext> : IRepositoryQueryBase<T, K, TContext>
     where T : EntityBase<K>
