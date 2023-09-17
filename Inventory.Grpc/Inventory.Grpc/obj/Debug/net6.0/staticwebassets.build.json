@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "65pW60fhMrJNhe97yMeNvxoYwzub+6FXZxEyd1OVq7c=",
+  "Source": "Inventory.Grpc",
+  "BasePath": "_content/Inventory.Grpc",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

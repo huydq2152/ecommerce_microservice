@@ -1,0 +1,8 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CUsers_005Cpc_005CDesktop_005Ctedu_005Caspnetcore_002Dmicroservice_005Csrc_005CBuildingBlocks_005CCommon_002ELogging_005Cobj_005CDebug_005Cnet6_002E0_005CCommon_002ELogging_002Edll/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CUsers_005Cpc_005CDesktop_005Ctedu_005Caspnetcore_002Dmicroservice_005Csrc_005CBuildingBlocks_005CContracts_005Cobj_005CDebug_005Cnet6_002E0_005CContracts_002Edll/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CUsers_005Cpc_005CDesktop_005Ctedu_005Caspnetcore_002Dmicroservice_005Csrc_005CBuildingBlocks_005CInfrastructure_005Cobj_005CDebug_005Cnet6_002E0_005CInfrastructure_002Edll/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CUsers_005Cpc_005CDesktop_005Ctedu_005Caspnetcore_002Dmicroservice_005Csrc_005CBuildingBlocks_005CShared_005Cobj_005CDebug_005Cnet6_002E0_005CShared_002Edll/@EntryIndexedValue">True</s:Boolean>
+	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;&#xD;
+  &lt;Assembly Path="C:\Users\pc\Desktop\tedu\aspnetcore-microservice\src\BuildingBlocks\Common.Logging\obj\Debug\net6.0\Common.Logging.dll" /&gt;&#xD;
+&lt;/AssemblyExplorer&gt;</s:String></wpf:ResourceDictionary>
