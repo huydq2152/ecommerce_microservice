@@ -15,12 +15,12 @@ try
     builder.Host.AddAppConfigurations();
     builder.Services.AddConfigurationSettings(builder.Configuration);
     builder.Services.AddAutoMapper(config => config.AddProfile(new MappingProfile()));
-
+    
     builder.Services.ConfigureServices();
     builder.Services.ConfigureRedisCache(builder.Configuration);
     builder.Services.ConfigureGrpcServices();
     builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
-
+    
     builder.Services.ConfigureMasstransit();
 
     builder.Services.AddControllers();

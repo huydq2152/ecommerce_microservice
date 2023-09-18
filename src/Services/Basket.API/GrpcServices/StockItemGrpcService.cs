@@ -1,4 +1,4 @@
-﻿using Inventory.Grpc.Protos;
+﻿using Inventory.Grpc.Client;
 using ILogger = Serilog.ILogger;
 
 namespace Basket.API.GrpcServices;

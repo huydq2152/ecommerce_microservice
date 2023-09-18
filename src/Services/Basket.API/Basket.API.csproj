@@ -22,10 +22,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Protobuf Include="..\Inventory\Inventory.Grpc\Protos\stock.proto">
-      <Link>Protos\stock.proto</Link>
+    <Protobuf Include="Protos\stockItem.proto">
+      <GrpcServices>Client</GrpcServices>
+      <Access>Public</Access>
+      <ProtoCompile>True</ProtoCompile>
+      <CompileOutputs>True</CompileOutputs>
+      <OutputDir>obj\Debug\net6.0\</OutputDir>
+      <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <GrpcService>Client</GrpcService>
     </Protobuf>
   </ItemGroup>
 
