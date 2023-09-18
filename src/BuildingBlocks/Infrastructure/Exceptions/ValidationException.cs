@@ -1,8 +1,8 @@
-﻿using FluentValidation.Results;
+using FluentValidation.Results;
 
-namespace Ordering.Application.Common.Exception;
+namespace Infrastructure.Exceptions;
 
-public class ValidationException: ApplicationException
+public class ValidationException : ApplicationException
 {
     public ValidationException()
         : base("One or more validation failures have occurred.")

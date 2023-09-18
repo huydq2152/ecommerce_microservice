@@ -1,0 +1,22 @@
+{
+  "GlobalConfiguration": {
+    "BaseUrl": "http://localhost:5001"
+  },
+  "Routes": [
+    // Customer api http://localhost:5003/api/customers
+    {
+      "UpstreamPathTemplate": "/api/customers/{userName}",
+      "UpstreamHttpMethod": [
+        "GET"
+      ],
+      "DownstreamPathTemplate": "/api/customers/{userName}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ]
+    }
+  ]
+}
