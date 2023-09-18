@@ -53,6 +53,18 @@ services:
     build:
       context: .
       dockerfile: Services/Ordering/Ordering.API/Dockerfile
+      
+  inventory.api:
+    image: ${DOCKER_REGISTRY-}inventory-api:${PLATFORM:-linux}-${TAG:-latest}
+    build:
+      context: .
+      dockerfile: Services/Inventory/Inventory.API/Dockerfile
+      
+  inventory.grpc:
+    image: ${DOCKER_REGISTRY-}inventory-grpc:${PLATFORM:-linux}-${TAG:-latest}
+    build:
+      context: .
+      dockerfile: Services/Inventory/Inventory.Grpc/Dockerfile
 
 #network section
 networks:
