@@ -68,7 +68,7 @@ public class ProductsController : ControllerBase
         return false;
     }
 
-    [HttpPut]
+    [HttpPut("{id:long}")]
     public async Task<IActionResult> UpdateProduct([Required] long id, [FromBody] UpdateProductDto productDto)
     {
         var product = await _productRepository.GetProduct(id);
@@ -81,7 +81,7 @@ public class ProductsController : ControllerBase
         return Ok(result);
     }
 
-    [HttpDelete]
+    [HttpDelete("{id:long}")]
     public async Task<IActionResult> DeleteProduct([Required] long id)
     {
         var product = await _productRepository.GetProduct(id);

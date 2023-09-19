@@ -18,13 +18,13 @@ namespace Ordering.API.Controllers;
 
 [Route("api/v1/[controller]")]
 [ApiController]
-public class OrderController : ControllerBase
+public class OrdersController : ControllerBase
 {
     private readonly IMediator _mediator;
     private readonly ISmtpEmailService _emailService;
     private readonly IMapper _mapper;
 
-    public OrderController(IMediator mediator, ISmtpEmailService emailService, IMapper mapper)
+    public OrdersController(IMediator mediator, ISmtpEmailService emailService, IMapper mapper)
     {
         _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         _emailService = emailService;
