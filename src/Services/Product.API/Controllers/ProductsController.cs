@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using AutoMapper;
 using Contracts.Common.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Product.API.Entities;
@@ -47,6 +48,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize]
     public async Task<IActionResult> CreateProduct([FromBody] CreateProductDto productDto)
     {
         if (await IsExistedProductNo(productDto.No))
@@ -69,6 +71,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpPut("{id:long}")]
+    [Authorize]
     public async Task<IActionResult> UpdateProduct([Required] long id, [FromBody] UpdateProductDto productDto)
     {
         var product = await _productRepository.GetProduct(id);
@@ -82,6 +85,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpDelete("{id:long}")]
+    [Authorize]
     public async Task<IActionResult> DeleteProduct([Required] long id)
     {
         var product = await _productRepository.GetProduct(id);
