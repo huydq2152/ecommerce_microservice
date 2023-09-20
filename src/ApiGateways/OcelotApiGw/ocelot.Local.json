@@ -1,0 +1,204 @@
+{
+  "GlobalConfiguration": {
+    "BaseUrl": "http://apigw.ocelot"
+  },
+  "Routes": [
+    // Customer api: http://localhost:5003/api/customers
+    {
+      "UpstreamPathTemplate": "/customers/{userName}",
+      "UpstreamHttpMethod": [
+        "GET"
+      ],
+      "DownstreamPathTemplate": "/api/customers/{userName}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": 6003
+        }
+      ]
+    },
+    
+    // Product api: http://localhost:5002/api/products
+    {
+      "UpstreamPathTemplate": "/products/{id}",
+      "UpstreamHttpMethod": [
+        "GET",
+        "PUT",
+        "DELETE"
+      ],
+      "DownstreamPathTemplate": "/api/products/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": 6002
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/products",
+      "UpstreamHttpMethod": [
+        "GET",
+        "POST"
+      ],
+      "DownstreamPathTemplate": "/api/products",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": 6002
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/products/get-product-by-no/{productNo}",
+      "UpstreamHttpMethod": [
+        "GET"
+      ],
+      "DownstreamPathTemplate": "/api/products/get-product-by-no/{productNo}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": 6002
+        }
+      ]
+    },
+
+    // Basket api: http://localhost:5004/api/baskets
+    {
+      "UpstreamPathTemplate": "/baskets/{username}",
+      "UpstreamHttpMethod": [
+        "GET",
+        "DELETE"
+      ],
+      "DownstreamPathTemplate": "/api/baskets/{username}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": 6004
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/baskets",
+      "UpstreamHttpMethod": [
+        "POST"
+      ],
+      "DownstreamPathTemplate": "/api/baskets",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": 6004
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/baskets/checkout",
+      "UpstreamHttpMethod": [
+        "POST"
+      ],
+      "DownstreamPathTemplate": "/api/baskets/checkout",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": 6004
+        }
+      ]
+    },
+    // Order api: http://localhost:5005/api/{version}/orders
+    {
+      "UpstreamPathTemplate": "/{version}/orders/userName/{userName}",
+      "UpstreamHttpMethod": [
+        "GET",
+        "PUT",
+        "DELETE"
+      ],
+      "DownstreamPathTemplate": "/api/{version}/orders/userName/{userName}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": 6005
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/{version}/orders",
+      "UpstreamHttpMethod": [
+        "POST"
+      ],
+      "DownstreamPathTemplate": "/api/{version}/orders",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": 6005
+        }
+      ]
+    },
+
+    // Inventory API : http://localhost:5006/inventory
+    {
+      "UpstreamPathTemplate": "/inventory/items/{itemNo}",
+      "UpstreamHttpMethod": [
+        "GET"
+      ],
+      "DownstreamPathTemplate": "/api/inventory/items/{itemNo}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": 6006
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/inventory/items/{itemNo}/paging",
+      "UpstreamHttpMethod": [
+        "GET"
+      ],
+      "DownstreamPathTemplate": "/api/inventory/items/{itemNo}/paging",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": 6006
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/inventory/{id}",
+      "UpstreamHttpMethod": [
+        "GET",
+        "DELETE"
+      ],
+      "DownstreamPathTemplate": "/api/inventory/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": 6006
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/inventory/purchase/{itemNo}",
+      "UpstreamHttpMethod": [
+        "POST"
+      ],
+      "DownstreamPathTemplate": "/api/inventory/purchase/{itemNo}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": 6006
+        }
+      ]
+    }
+  ]
+}
