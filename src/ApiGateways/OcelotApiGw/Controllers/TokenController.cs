@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Identity;
 
-namespace Product.API.Controllers;
+namespace OcelotApiGw.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]

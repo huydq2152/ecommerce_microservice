@@ -17,7 +17,7 @@ try
     builder.Services.AddControllers();
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
-    
+
     builder.Services.ConfigureOcelot(builder.Configuration);
     builder.Services.ConfigureCors(builder.Configuration);
 
@@ -32,12 +32,22 @@ try
 
     app.UseCors("CorsPolicy");
     app.UseMiddleware<ErrorWrappingMiddleware>();
-
+    app.UseAuthentication();
+    app.UseRouting();
     app.UseAuthorization();
+
+    app.UseEndpoints(endpoints =>
+    {
+        endpoints.MapGet("/", async context =>
+        {
+            await context.Response.WriteAsync($"Hello tedu member, this is {builder.Environment.ApplicationName}");
+        });
+    });
+    
     app.MapDefaultControllerRoute();
 
     await app.UseOcelot();
-    
+
     app.Run();
 }
 catch (Exception ex)
