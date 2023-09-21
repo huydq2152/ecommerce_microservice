@@ -2,11 +2,7 @@ using Customer.API;
 using Customer.API.Controller;
 using Customer.API.Extensions;
 using Customer.API.Persistence;
-using Customer.API.Repositories;
-using Customer.API.Repositories.Interface;
-using Customer.API.Services;
-using Customer.API.Services.Interface;
-using Microsoft.EntityFrameworkCore;
+using Infrastructure.ScheduleJobs;
 using Serilog;
 
 Log.Logger = new LoggerConfiguration().WriteTo.Console().CreateBootstrapLogger();
@@ -18,13 +14,16 @@ try
 {
     builder.Host.AddAppConfigurations();
     builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
-
-    // add service to the container
-    builder.Services.AddConfigurationSetting(builder.Configuration);
+    builder.Services.AddConfigurationSettings(builder.Configuration);
+    builder.Services.ConfigureCustomerContext();
+    builder.Services.AddInfrastructureServices();
+    
     builder.Services.AddControllers();
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
     builder.Services.AddAutoMapper(cfg => cfg.AddProfile(new MappingProfile()));
+
+    builder.Services.AddHangfireService();
     
     var app = builder.Build();
 
@@ -41,6 +40,9 @@ try
     //app.UseHttpsRedirection(); //production only
     app.UseAuthorization();
     app.MapDefaultControllerRoute();
+
+    app.UseHangfireDashboard(builder.Configuration);
+    
     app.SeedCustomerData()
         .Run();
 }
