@@ -56,6 +56,17 @@ services:
     volumes:
       - mongo_data:/data/db
   
+  hangfiredb:
+    container_name: hangfiredb
+    ports:
+      - '27018:27017'
+    volumes:
+      - hangfire_mongo_data:/data/db
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: 'admin'
+      MONGO_INITDB_ROOT_PASSWORD: 'admin'
+  
   #infrastructure section
   pgadmin:
     container_name: pgadmin

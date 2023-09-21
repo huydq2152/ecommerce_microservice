@@ -51,7 +51,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inventory.API", "src\Servic
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ordering.API", "src\Services\Ordering\Ordering.API\Ordering.API.csproj", "{644A79C8-459E-4026-9725-C0845437D207}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScheduledJob.API", "src\Services\ScheduledJob\ScheduledJob.API\ScheduledJob.API.csproj", "{6D641D7D-083B-4D98-912C-817493CD1E48}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hangfire.API", "src\Services\ScheduledJob\Hangfire.API\Hangfire.API.csproj", "{6D641D7D-083B-4D98-912C-817493CD1E48}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Product.API", "src\Services\Product.API\Product.API.csproj", "{99E39CF6-4526-42C8-B58C-20A68EBCB097}"
 EndProject
