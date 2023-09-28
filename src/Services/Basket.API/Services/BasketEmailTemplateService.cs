@@ -1,14 +1,19 @@
 ﻿using Basket.API.Services.Interface;
+using Shared.Configuration;
 
 namespace Basket.API.Services;
 
 public class BasketEmailTemplateService: EmailTemplateService, IEmailTemplateService
 {
-    public string GenerateReminderCheckoutOrderEmail(string email, string userName)
+    public BasketEmailTemplateService(BackgroundJobSettings backgroundJobSettings) : base(backgroundJobSettings)
     {
-        var checkoutUrl = "http://localhost:5001/baskets/checkout";
+    }
+    
+    public string GenerateReminderCheckoutOrderEmail(string userName, string checkoutUrl)
+    {
+        var url = $"{_backgroundJobSettings.ApiGwUrl}/{checkoutUrl}/{userName}";
         var emailText = ReadEmailTemplateContent("reminder-checkout-order");
-        var emailReplaceText = emailText.Replace("[userName]", userName).Replace("[checkoutUrl]", checkoutUrl);
+        var emailReplaceText = emailText.Replace("[userName]", userName).Replace("[checkoutUrl]", url);
 
         return emailReplaceText;
     }

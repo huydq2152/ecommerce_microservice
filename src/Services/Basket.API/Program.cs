@@ -21,6 +21,7 @@ try
     builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
     
     builder.Services.ConfigureMasstransit();
+    builder.Services.ConfigureHttpClientService();
 
     builder.Services.AddControllers();
     builder.Services.AddEndpointsApiExplorer();

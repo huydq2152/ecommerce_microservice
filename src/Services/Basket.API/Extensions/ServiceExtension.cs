@@ -31,6 +31,11 @@ public static class ServiceExtension
         if (grpcSettings == null) throw new ArgumentNullException("Grpc settings is not configured");
         services.AddSingleton(grpcSettings);
 
+        var backgroundJobSettings =
+            configuration.GetSection(nameof(BackgroundJobSettings)).Get<BackgroundJobSettings>();
+        if (backgroundJobSettings == null) throw new ArgumentNullException("BackgroundJobSettings is not configured");
+        services.AddSingleton(backgroundJobSettings);
+
         return services;
     }
 
@@ -79,5 +84,10 @@ public static class ServiceExtension
             //public submit order message
             configurator.AddRequestClient<IBasketCheckoutEvent>();
         });
+    }
+
+    public static void ConfigureHttpClientService(this IServiceCollection services)
+    {
+        services.AddHttpClient<BackgroundJobHttpService>();
     }
 }
