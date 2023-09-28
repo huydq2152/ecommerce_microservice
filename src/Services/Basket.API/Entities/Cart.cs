@@ -16,4 +16,6 @@ public class Cart
     }
 
     public decimal TotalPrice => Items.Sum(item => item.Quantity * item.ItemPrice);
+
+    public DateTimeOffset LastModifiedDate { get; set; } = DateTimeOffset.UtcNow;
 }

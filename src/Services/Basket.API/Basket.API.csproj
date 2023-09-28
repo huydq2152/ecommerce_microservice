@@ -33,4 +33,10 @@
     </Protobuf>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="EmailTemplate\reminder-checkout-order.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

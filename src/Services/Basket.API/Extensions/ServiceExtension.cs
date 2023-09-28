@@ -1,6 +1,8 @@
 ﻿using Basket.API.GrpcServices;
 using Basket.API.Repositories;
 using Basket.API.Repositories.Interface;
+using Basket.API.Services;
+using Basket.API.Services.Interface;
 using Contracts.Common.Interfaces;
 using EventBus.Messages.IntegrationEvents.Interface;
 using Infrastructure.Common;
@@ -35,7 +37,8 @@ public static class ServiceExtension
     public static IServiceCollection ConfigureServices(this IServiceCollection services)
     {
         services.AddScoped<IBasketRepository, BasketRepository>()
-            .AddTransient<ISerializeService, SerializeService>();
+            .AddTransient<ISerializeService, SerializeService>()
+            .AddTransient<IEmailTemplateService, BasketEmailTemplateService>();
         return services;
     }
 
