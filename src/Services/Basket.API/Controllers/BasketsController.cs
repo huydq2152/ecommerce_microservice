@@ -9,6 +9,7 @@ using EventBus.Messages.IntegrationEvents.Events;
 using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
+using Shared.DTOs.Cart;
 
 namespace Basket.API.Controllers;
 
@@ -33,19 +34,20 @@ public class BasketsController : ControllerBase
     }
 
     [HttpGet("{userName}", Name = "GetBasket")]
-    [ProducesResponseType(typeof(Cart), (int)HttpStatusCode.OK)]
-    public async Task<ActionResult<Cart>> GetBasketByUserName([Required] string userName)
+    [ProducesResponseType(typeof(CartDto), (int)HttpStatusCode.OK)]
+    public async Task<ActionResult<CartDto>> GetBasketByUserName([Required] string userName)
     {
-        var result = await _basketRepository.GetBasketByUserName(userName);
-        return Ok(result ?? new Cart());
+        var cart = await _basketRepository.GetBasketByUserName(userName);
+        var result = _mapper.Map<CartDto>(cart);
+        return Ok(result ?? new CartDto());
     }
 
     [HttpPost(Name = "UpdateBasket")]
-    [ProducesResponseType(typeof(Cart), (int)HttpStatusCode.OK)]
-    public async Task<ActionResult<Cart>> UpdateBasket([FromBody] Cart cart)
+    [ProducesResponseType(typeof(CartDto), (int)HttpStatusCode.OK)]
+    public async Task<ActionResult<CartDto>> UpdateBasket([FromBody] CartDto model)
     {
         // communicate with inventory.grpc to check quantity available of products
-        foreach (var item in cart.Items)
+        foreach (var item in model.Items)
         {
             var stock = await _stockItemGrpcService.GetStock(item.ItemNo);
             item.SetAvalableQuantity(stock.Quantity);
@@ -53,8 +55,10 @@ public class BasketsController : ControllerBase
 
         var option = new DistributedCacheEntryOptions()
             .SetAbsoluteExpiration(DateTime.UtcNow.AddHours(10));
-            // .SetSlidingExpiration(TimeSpan.FromMinutes(5));
-        var result = await _basketRepository.UpdateBasket(cart, option);
+
+        var cart = _mapper.Map<Cart>(model);
+        var updatedCart = await _basketRepository.UpdateBasket(cart, option);
+        var result = _mapper.Map<CartDto>(updatedCart);
         return Ok(result);
     }
 
@@ -87,7 +91,7 @@ public class BasketsController : ControllerBase
     [HttpPost("[action]", Name = "SendEmailReminder")]
     public ContentResult SendEmailReminder()
     {
-        var emailTemplate = _emailTemplateService.GenerateReminderCheckoutOrderEmail("userName", "checkoutUrl");
+        var emailTemplate = _emailTemplateService.GenerateReminderCheckoutOrderEmail("userName");
         var result = new ContentResult()
         {
             Content = emailTemplate,
