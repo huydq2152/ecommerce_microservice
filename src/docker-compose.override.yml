@@ -136,6 +136,8 @@ services:
       - "CacheSettings:ConnectionString=basketdb:6379"
       - "EventBusSettings:HostAddress=amqp://guest:guest@rabbitmq:5672"
       - "GrpcSettings:StockUrl=http://inventory.grpc"
+      - BackgroundJobSettings:HangfireUrl=http://hangfire.api
+      - BackgroundJobSettings:CheckoutUrl=http://localhost:6001
     depends_on:
       - basketdb
       - rabbitmq
@@ -197,4 +199,16 @@ services:
       - inventory.api
     ports:
       - "6001:80"
+    restart: always
+
+  hangfire.api:
+    container_name: hangfire.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - "HangFireSettings:Storage:ConnectionString=mongodb://admin:admin@hangfiredb/hangfire-webapi?authSource=admin"
+    depends_on:
+      - hangfiredb
+    ports:
+      - "6008:80"
     restart: always
