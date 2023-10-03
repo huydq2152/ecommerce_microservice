@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Ordering.Application.Features.V1.Order;
 using Ordering.Application.Features.V1.Order.Commands.CreateOrder;
 using Ordering.Application.Features.V1.Order.Commands.DeleteOrder;
+using Ordering.Application.Features.V1.Order.Commands.DeleteOrderByDocumentNo;
 using Ordering.Application.Features.V1.Order.Commands.UpdateOrder;
 using Ordering.Application.Features.V1.Order.Queries.GetOrders.GetOrderById;
 using Shared.DTOs.Order;
@@ -98,10 +99,19 @@ public class OrdersController : ControllerBase
     }
 
     [HttpDelete("{id:long}", Name = RouteNames.DeleteOrder)]
-    [ProducesResponseType(typeof(NoContentResult), (int)HttpStatusCode.NoContent)]
+    [ProducesResponseType(typeof(ApiResult<bool>), (int)HttpStatusCode.NoContent)]
     public async Task<ActionResult> DeleteOrder([Required] long id)
     {
         var command = new DeleteOrderCommand(id);
+        await _mediator.Send(command);
+        return NoContent();
+    }
+    
+    [HttpDelete("document-no/{documentNo}", Name = RouteNames.DeleteOrderByDocumentNo)]
+    [ProducesResponseType(typeof(ApiResult<bool>), (int)HttpStatusCode.NoContent)]
+    public async Task<ActionResult> DeleteOrderByDocumentNo(string documentNo)
+    {
+        var command = new DeleteOrderByDocumentNoCommand(documentNo);
         await _mediator.Send(command);
         return NoContent();
     }

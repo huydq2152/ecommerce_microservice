@@ -71,6 +71,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inventory.Grpc", "src\Servi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hangfire.API", "src\Services\Hangfire.API\Hangfire.API.csproj", "{1527AF66-DD63-438B-9ECB-D4580DEBF3A3}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Saga.Orchestrator", "Saga.Orchestrator", "{69402B39-785B-4662-B8A9-8B6D116355EB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Saga.Orchestrator", "src\Saga.Orchestrator\Saga.Orchestrator\Saga.Orchestrator.csproj", "{8023F25C-15EE-4321-ACD8-8F62AE531AD4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -145,6 +149,10 @@ Global
 		{1527AF66-DD63-438B-9ECB-D4580DEBF3A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1527AF66-DD63-438B-9ECB-D4580DEBF3A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1527AF66-DD63-438B-9ECB-D4580DEBF3A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8023F25C-15EE-4321-ACD8-8F62AE531AD4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8023F25C-15EE-4321-ACD8-8F62AE531AD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8023F25C-15EE-4321-ACD8-8F62AE531AD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8023F25C-15EE-4321-ACD8-8F62AE531AD4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -178,6 +186,8 @@ Global
 		{D821D2E1-BF76-49CC-9D40-6AB7C58A964C} = {46F66340-5A06-46CD-A667-068CD45A7BD9}
 		{DC66F77F-A675-4A2D-BCF4-C5CBDFD355DB} = {2216D4D9-9672-4C9C-A22E-EE1CB866343E}
 		{1527AF66-DD63-438B-9ECB-D4580DEBF3A3} = {4DB4EA9F-A954-468E-92C4-114FA189F829}
+		{69402B39-785B-4662-B8A9-8B6D116355EB} = {92821270-EED6-4073-929E-5E3C465F6A70}
+		{8023F25C-15EE-4321-ACD8-8F62AE531AD4} = {69402B39-785B-4662-B8A9-8B6D116355EB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1ACA1DA3-51CE-4E34-8BE4-BAF72EE3BD81}

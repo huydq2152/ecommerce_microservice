@@ -20,6 +20,12 @@ public class OrderRepository : RepositoryBase<Order, long, OrderContext>, IOrder
         return result;
     }
 
+    public async Task<Order> GetOrderByDocumentNo(string documentNo)
+    {
+        var result = await FindByCondition(o => o.DocumentNo.ToString().Equals(documentNo)).FirstOrDefaultAsync();
+        return result ?? new Order();
+    }
+
     public void CreateOrder(Order order)
     {
         Create(order);
