@@ -1,4 +1,6 @@
-﻿namespace Shared.SeedWork;
+﻿using System.Text.Json.Serialization;
+
+namespace Shared.SeedWork;
 
 public class ApiErrorResult<T> : ApiResult<T>
 {

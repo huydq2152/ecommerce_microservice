@@ -16,7 +16,7 @@ public class OrderHttpRepository: IOrderHttpRepository
 
     public async Task<long> CreateOrder(CreateOrderDto order)
     {
-        var response = await _httpClient.PostAsJsonAsync($"order", order);
+        var response = await _httpClient.PostAsJsonAsync($"orders", order);
         if (!response.EnsureSuccessStatusCode().IsSuccessStatusCode) return -1;
 
         var orderId = await response.ReadContentAs<ApiSuccessResult<long>>();

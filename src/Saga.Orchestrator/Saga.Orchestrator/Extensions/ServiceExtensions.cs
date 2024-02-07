@@ -49,7 +49,7 @@ public static class ServiceExtensions
             throw new ArgumentNullException("ServiceUrls Basket is not configured");
         services.AddHttpClient<IBasketHttpRepository, BasketHttpRepository>("BasketsAPI", (sp, cl) =>
         {
-            cl.BaseAddress = new Uri($"{urls.Basket}/api");
+            cl.BaseAddress = new Uri($"{urls.Basket}/api/");
         });
         services.AddScoped(sp => sp.GetService<IHttpClientFactory>().CreateClient("BasketsAPI"));
     }
@@ -61,7 +61,7 @@ public static class ServiceExtensions
             throw new ArgumentNullException("ServiceUrls Inventory is not configured");
         services.AddHttpClient<IInventoryHttpRepository, InventoryHttpRepository>("InventoryAPI", (sp, cl) =>
         {
-            cl.BaseAddress = new Uri($"{urls.Inventory}/api");
+            cl.BaseAddress = new Uri($"{urls.Inventory}/api/");
         });
         services.AddScoped(sp => sp.GetService<IHttpClientFactory>().CreateClient("InventoryAPI"));
     }

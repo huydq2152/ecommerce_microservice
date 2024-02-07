@@ -56,11 +56,21 @@ public class InventoryController : ControllerBase
         return Ok(result);
     }
 
+    [HttpPost("sales/{itemNo}", Name = "SalesOrder")]
+    [ProducesResponseType(typeof(InventoryEntryDto), (int)HttpStatusCode.OK)]
+    public async Task<ActionResult<InventoryEntryDto>> SalesOrder([Required] string itemNo,
+        [FromBody] SalesProductDto model)
+    {
+        model.SetItemNo(itemNo);
+        var result = await _inventoryService.SalesItemAsync(itemNo, model);
+        return Ok(result);
+    }
+
     [HttpDelete("{id}", Name = "DeleteInventoryById")]
     [ProducesResponseType(typeof(InventoryEntryDto), (int)HttpStatusCode.OK)]
     public async Task<ActionResult<InventoryEntryDto>> DeleteInventoryById([Required] string id)
     {
-        var entity =  await _inventoryService.GetByIdAsync(id);
+        var entity = await _inventoryService.GetByIdAsync(id);
         if (entity == null) return NotFound();
         await _inventoryService.DeleteAsync(id);
         return NoContent();

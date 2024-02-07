@@ -6,7 +6,7 @@ namespace Infrastructure.Extensions;
 
 public static class HttpClientExtensions
 {
-    public static async Task<T?> ReadContentAs<T>(this HttpResponseMessage responseMessage)
+    public static async Task<T> ReadContentAs<T>(this HttpResponseMessage responseMessage)
     {
         if (!responseMessage.IsSuccessStatusCode)
         {
@@ -21,7 +21,7 @@ public static class HttpClientExtensions
             ReferenceHandler = ReferenceHandler.Preserve
         });
     }
-    
+
     public static Task<HttpResponseMessage> PostAsJson<T>(this HttpClient httpClient, string url, T data)
     {
         var dataAsString = JsonSerializer.Serialize(data);
