@@ -1,3 +1,4 @@
+using Saga.Orchestrator;
 using Saga.Orchestrator.Extensions;
 using Serilog;
 
@@ -10,11 +11,21 @@ Log.Information($"Start {builder.Environment.ApplicationName} up");
 try
 {
     builder.Host.AddAppConfigurations();
-    builder.Services.AddConfigurationSetting(builder.Configuration);
-    
+    builder.Services.ConfigureServices();
+    builder.Services.ConfigureHttpRepository();
+    builder.Services.ConfigureHttpClient();
+
     builder.Services.AddControllers();
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
+    builder.Services.Configure<RouteOptions>(options =>
+    {
+        options.LowercaseUrls = true;
+    });
+    builder.Services.AddAutoMapper(expression =>
+    {
+        expression.AddProfile<MappingProfile>();
+    });
 
     var app = builder.Build();
 
