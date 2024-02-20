@@ -56,13 +56,24 @@ public class InventoryController : ControllerBase
         return Ok(result);
     }
 
-    [HttpPost("sales/{itemNo}", Name = "SalesOrder")]
+    [HttpPost("sales/{itemNo}", Name = "SalesItem")]
     [ProducesResponseType(typeof(InventoryEntryDto), (int)HttpStatusCode.OK)]
-    public async Task<ActionResult<InventoryEntryDto>> SalesOrder([Required] string itemNo,
+    public async Task<ActionResult<InventoryEntryDto>> SalesItem([Required] string itemNo,
         [FromBody] SalesProductDto model)
     {
         model.SetItemNo(itemNo);
         var result = await _inventoryService.SalesItemAsync(itemNo, model);
+        return Ok(result);
+    }
+
+    [HttpPost("sales/order-no/{orderNo}", Name = "SalesOrder")]
+    [ProducesResponseType(typeof(InventoryEntryDto), (int)HttpStatusCode.OK)]
+    public async Task<ActionResult<InventoryEntryDto>> SalesOrder([Required] string orderNo,
+        [FromBody] SalesOrderDto model)
+    {
+        model.OrderNo = orderNo;
+        var documentNo = await _inventoryService.SalesOrderAsync(model);
+        var result = new CreatedSalesOrderSuccessDto(documentNo);
         return Ok(result);
     }
 

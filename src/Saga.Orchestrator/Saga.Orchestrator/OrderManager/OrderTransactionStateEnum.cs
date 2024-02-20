@@ -6,6 +6,7 @@ public enum OrderTransactionStateEnum
     BasketGot,
     BasketGetFailed,
     OrderCreated,
+    OrderCreatedFailed,
     OrderGot,
     OrderGetFailed,
     InventoryUpdated,
