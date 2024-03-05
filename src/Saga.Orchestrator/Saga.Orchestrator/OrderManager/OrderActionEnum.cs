@@ -3,8 +3,10 @@
 public enum OrderActionEnum
 {
     GetBasket,
+    DeleteBasket,
     CreateOrder,
     GetOrder,
+    DeleteOrder,
     UpdateInvetory,
-    RollBackInventory
+    DeleteInventory
 }

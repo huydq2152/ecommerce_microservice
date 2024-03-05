@@ -35,26 +35,31 @@ public class SagaOrderManager : ISagaOrderManager<BasketCheckoutDto, OrderRespon
         long orderId = -1;
         CartDto cart = null;
         OrderDto addedOrder = null;
-        string? inventoryDocumentNo;
+        string? inventoryDocumentNo = null;
 
+        //1. Get Basket by Username
         orderStateMachine.Configure(OrderTransactionStateEnum.NotStarted)
             .PermitDynamic(OrderActionEnum.GetBasket, () =>
             {
                 cart = _basketHttpRepository.GetBasket(input.UserName).Result;
-                return cart != null ? OrderTransactionStateEnum.BasketGot : OrderTransactionStateEnum.BasketGetFailed;
+                return cart.UserName != null
+                    ? OrderTransactionStateEnum.BasketGot
+                    : OrderTransactionStateEnum.BasketGetFailed;
             }).OnEntry(() => orderStateMachine.Fire(OrderActionEnum.GetBasket));
-        ;
 
+        //2. Create order (Place Order)
         orderStateMachine.Configure(OrderTransactionStateEnum.BasketGot)
             .PermitDynamic(OrderActionEnum.CreateOrder, () =>
             {
                 var order = _mapper.Map<CreateOrderDto>(input);
+                order.TotalPrice = cart.TotalPrice;
                 orderId = _orderHttpRepository.CreateOrder(order).Result;
                 return orderId > 0
                     ? OrderTransactionStateEnum.OrderCreated
                     : OrderTransactionStateEnum.OrderCreatedFailed;
             }).OnEntry(() => orderStateMachine.Fire(OrderActionEnum.CreateOrder));
 
+        //3. Get Order detail by Order Id
         orderStateMachine.Configure(OrderTransactionStateEnum.OrderCreated)
             .PermitDynamic(OrderActionEnum.GetOrder, () =>
             {
@@ -64,6 +69,7 @@ public class SagaOrderManager : ISagaOrderManager<BasketCheckoutDto, OrderRespon
                     : OrderTransactionStateEnum.OrderGetFailed;
             }).OnEntry(() => orderStateMachine.Fire(OrderActionEnum.GetOrder));
 
+        //4. Inventory update
         orderStateMachine.Configure(OrderTransactionStateEnum.OrderGot)
             .PermitDynamic(OrderActionEnum.UpdateInvetory, () =>
             {
@@ -80,12 +86,51 @@ public class SagaOrderManager : ISagaOrderManager<BasketCheckoutDto, OrderRespon
                     : OrderTransactionStateEnum.InventoryUpdateFailed;
             }).OnEntry(() => orderStateMachine.Fire(OrderActionEnum.UpdateInvetory));
 
+        //5. Delete Basket
+        orderStateMachine.Configure(OrderTransactionStateEnum.InventoryUpdated)
+            .PermitDynamic(OrderActionEnum.DeleteBasket, () =>
+            {
+                var result = _basketHttpRepository.DeleteBasket(input.UserName).Result;
+                return result
+                    ? OrderTransactionStateEnum.BasketDeleted
+                    : OrderTransactionStateEnum.InventoryUpdateFailed;
+            }).OnEntry(() => orderStateMachine.Fire(OrderActionEnum.DeleteBasket));
 
-        return new OrderResponse(orderStateMachine.State == OrderTransactionStateEnum.InventoryUpdated);
+        //6. Rollback Order
+        orderStateMachine.Configure(OrderTransactionStateEnum.InventoryUpdateFailed)
+            .PermitDynamic(OrderActionEnum.DeleteInventory, () =>
+            {
+                RollBackOrder(input.UserName, inventoryDocumentNo, orderId);
+                return OrderTransactionStateEnum.InventoryRollback;
+            }).OnEntry(() => orderStateMachine.Fire(OrderActionEnum.DeleteInventory));
+
+        orderStateMachine.Fire(OrderActionEnum.GetBasket);
+
+        return new OrderResponse(orderStateMachine.State == OrderTransactionStateEnum.BasketDeleted);
     }
 
-    public OrderResponse RollBackOrder(BasketCheckoutDto input)
+    public OrderResponse RollBackOrder(string userName, string documentNo, long orderId)
     {
-        return new OrderResponse(false);
+        var orderStateMachine =
+            new Stateless.StateMachine<OrderTransactionStateEnum, OrderActionEnum>(OrderTransactionStateEnum
+                .RollbackInventory);
+        orderStateMachine.Configure(OrderTransactionStateEnum.RollbackInventory)
+            .PermitDynamic(OrderActionEnum.DeleteInventory, () =>
+            {
+                _inventoryHttpRepository.DeleteOrderByDocumentNo(documentNo);
+                return OrderTransactionStateEnum.InventoryRollback;
+            });
+
+        orderStateMachine.Configure(OrderTransactionStateEnum.InventoryRollback)
+            .PermitDynamic(OrderActionEnum.DeleteOrder, () =>
+            {
+                var result = _orderHttpRepository.DeleteOrder(orderId).Result;
+                return result
+                    ? OrderTransactionStateEnum.OrderDeleted
+                    : OrderTransactionStateEnum.OrderDeletedFailed;
+            }).OnEntry(() => orderStateMachine.Fire(OrderActionEnum.DeleteOrder));
+
+        orderStateMachine.Fire(OrderActionEnum.DeleteInventory);
+        return new OrderResponse(orderStateMachine.State == OrderTransactionStateEnum.InventoryRollback);
     }
 }

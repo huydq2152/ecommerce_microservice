@@ -3,7 +3,7 @@ using Shared.DTOs.Cart;
 
 namespace Saga.Orchestrator.HttpRepository;
 
-public class BasketHttpRepository: IBasketHttpRepository
+public class BasketHttpRepository : IBasketHttpRepository
 {
     private readonly HttpClient _httpClient;
 
@@ -20,8 +20,15 @@ public class BasketHttpRepository: IBasketHttpRepository
         return cart;
     }
 
-    public Task<bool> DeleteBasket(string userName)
+    public async Task<bool> DeleteBasket(string userName)
     {
-        throw new NotImplementedException();
+        var response = await _httpClient.DeleteAsync($"baskets/{userName}");
+        if (!response.EnsureSuccessStatusCode().IsSuccessStatusCode)
+        {
+            throw new Exception($"Delete basket for userName: {userName} failed.");
+        }
+
+        var result = response.IsSuccessStatusCode;
+        return result;
     }
 }

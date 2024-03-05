@@ -6,5 +6,5 @@ public interface ISagaOrderManager<in TInput, out TOutput>
 {
     public TOutput CreateOrder(TInput input);
 
-    public TOutput RollBackOrder(TInput input);
+    public TOutput RollBackOrder(string userName, string documentNo, long orderId);
 }

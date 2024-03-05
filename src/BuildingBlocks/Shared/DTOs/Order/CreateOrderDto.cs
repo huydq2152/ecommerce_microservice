@@ -18,4 +18,5 @@ public class CreateOrderDto
         get => _invoiceAddress;
         set => _invoiceAddress = value ?? ShippingAddress;
     }
+    
 }
