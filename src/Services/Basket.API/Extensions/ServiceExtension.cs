@@ -3,6 +3,7 @@ using Basket.API.Repositories;
 using Basket.API.Repositories.Interface;
 using Basket.API.Services;
 using Basket.API.Services.Interface;
+using Common.Logging;
 using Contracts.Common.Interfaces;
 using EventBus.Messages.IntegrationEvents.Interface;
 using Infrastructure.Common;
@@ -43,7 +44,8 @@ public static class ServiceExtension
     {
         services.AddScoped<IBasketRepository, BasketRepository>()
             .AddTransient<ISerializeService, SerializeService>()
-            .AddTransient<IEmailTemplateService, BasketEmailTemplateService>();
+            .AddTransient<IEmailTemplateService, BasketEmailTemplateService>()
+            .AddTransient<LoggingDelegatingHandler>();
         return services;
     }
 
@@ -88,6 +90,7 @@ public static class ServiceExtension
 
     public static void ConfigureHttpClientService(this IServiceCollection services)
     {
-        services.AddHttpClient<BackgroundJobHttpService>();
+        services.AddHttpClient<BackgroundJobHttpService>()
+            .AddHttpMessageHandler<LoggingDelegatingHandler>();
     }
 }

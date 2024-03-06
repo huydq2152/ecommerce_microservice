@@ -19,12 +19,15 @@ public class StockItemGrpcService
     {
         try
         {
+            _logger.Information("Begin: GetStock StockItemGrpcService itemNo: {itemNo}", itemNo);
             var stockItemRequest = new GetStockRequest() { ItemNo = itemNo };
-            return await _stockProtoServiceClient.GetStockAsync(stockItemRequest);
+            var result = await _stockProtoServiceClient.GetStockAsync(stockItemRequest);
+            _logger.Information("End: GetStock StockItemGrpcService itemNo: {itemNo} - stock result: {quantity}", itemNo, result.Quantity);
+            return result;
         }
         catch (Exception e)
         {
-            _logger.Error(e,"GetStock method has error");
+            _logger.Error(e,"StockItemGrpcService GetStock Error: {Message}", e.Message);
             throw;
         }
     }

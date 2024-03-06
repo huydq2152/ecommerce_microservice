@@ -1,4 +1,5 @@
-﻿using Contracts.Saga.OrderManager;
+﻿using Common.Logging;
+using Contracts.Saga.OrderManager;
 using Infrastructure.Extensions;
 using Saga.Orchestrator.HttpRepository;
 using Saga.Orchestrator.HttpRepository.Interfaces;
@@ -15,7 +16,8 @@ public static class ServiceExtensions
     public static IServiceCollection ConfigureServices(this IServiceCollection services)
     {
         services.AddTransient<ICheckoutSagaService, CheckoutSagaService>()
-            .AddTransient<ISagaOrderManager<BasketCheckoutDto, OrderResponse>, SagaOrderManager>();
+            .AddTransient<ISagaOrderManager<BasketCheckoutDto, OrderResponse>, SagaOrderManager>()
+            .AddTransient<LoggingDelegatingHandler>();
         return services;
     }
 
@@ -42,7 +44,7 @@ public static class ServiceExtensions
         services.AddHttpClient<IOrderHttpRepository, OrderHttpRepository>("OrdersAPI", (sp, cl) =>
         {
             cl.BaseAddress = new Uri($"{urls.Orders}/api/v1/");
-        });
+        }).AddHttpMessageHandler<LoggingDelegatingHandler>();
         services.AddScoped(sp => sp.GetService<IHttpClientFactory>().CreateClient("OrdersAPI"));
     }
     
@@ -54,7 +56,7 @@ public static class ServiceExtensions
         services.AddHttpClient<IBasketHttpRepository, BasketHttpRepository>("BasketsAPI", (sp, cl) =>
         {
             cl.BaseAddress = new Uri($"{urls.Basket}/api/");
-        });
+        }).AddHttpMessageHandler<LoggingDelegatingHandler>();
         services.AddScoped(sp => sp.GetService<IHttpClientFactory>().CreateClient("BasketsAPI"));
     }
     
@@ -66,7 +68,7 @@ public static class ServiceExtensions
         services.AddHttpClient<IInventoryHttpRepository, InventoryHttpRepository>("InventoryAPI", (sp, cl) =>
         {
             cl.BaseAddress = new Uri($"{urls.Inventory}/api/");
-        });
+        }).AddHttpMessageHandler<LoggingDelegatingHandler>();
         services.AddScoped(sp => sp.GetService<IHttpClientFactory>().CreateClient("InventoryAPI"));
     }
 }
