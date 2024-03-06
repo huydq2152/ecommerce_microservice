@@ -31,6 +31,12 @@ services:
     
   rabbitmq:
     image: rabbitmq:3-management-alpine
+    
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.7
+  
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.17.7 
   
   #microservice api section
   product.api:
@@ -105,3 +111,5 @@ volumes:
     name: mongo_data
   hangfire_mongo_data:
     name: hangfire_mongo_data
+  elasticsearch_data:
+    name: elasticsearch_data
