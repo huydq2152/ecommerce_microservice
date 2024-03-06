@@ -7,26 +7,40 @@ namespace Infrastructure.Policies;
 
 public static class HttpClientRetryPolicy
 {
-    public static void UseImmediateRetryPolicy(this IHttpClientBuilder builder)
+    public static IHttpClientBuilder UseImmediateHttpRetryPolicy(this IHttpClientBuilder builder,
+        int retryCount = 3)
     {
-        builder.AddPolicyHandler(ImmediateHttpRetry());
+        return builder.AddPolicyHandler(ConfigureImmediateHttpRetry(retryCount));
     }
 
-    public static void UseLinearRetryPolicy(this IHttpClientBuilder builder)
+    public static IHttpClientBuilder UseLinearHttpRetryPolicy(this IHttpClientBuilder builder,
+        int retryCount = 3, int secondBetweenRetries = 3)
     {
-        builder.AddPolicyHandler(LinearRetryPolicy());
+        return builder.AddPolicyHandler(ConfigureLinearHttpRetry(retryCount, secondBetweenRetries));
     }
 
-    public static void UseExponentialRetryPolicy(this IHttpClientBuilder builder)
+    public static IHttpClientBuilder UseExponentialHttpRetryPolicy(this IHttpClientBuilder builder,
+        int retryCount = 3, int baseOfExponentiation = 2)
     {
-        builder.AddPolicyHandler(ExponentialRetryPolicy());
+        return builder.AddPolicyHandler(ConfigureExponentialHttpRetry(retryCount, baseOfExponentiation));
     }
 
-    private static IAsyncPolicy<HttpResponseMessage> ImmediateHttpRetry()
+    public static IHttpClientBuilder UseCircuitBreakerPolicy(this IHttpClientBuilder builder,
+        int eventsAllowedBeforeBreaking = 3, int fromSeconds = 30)
+    {
+        return builder.AddPolicyHandler(ConfigureCircuitBreakerPolicy(eventsAllowedBeforeBreaking, fromSeconds));
+    }
+
+    public static IHttpClientBuilder ConfigureTimeoutPolicy(this IHttpClientBuilder builder, int seconds = 5)
+    {
+        return builder.AddPolicyHandler(Policy.TimeoutAsync<HttpResponseMessage>(seconds));
+    }
+
+    private static IAsyncPolicy<HttpResponseMessage> ConfigureImmediateHttpRetry(int retryCount)
     {
         return HttpPolicyExtensions
             .HandleTransientHttpError()
-            .RetryAsync(3,
+            .RetryAsync(retryCount,
                 (exception, retryCount, context) =>
                 {
                     Log.Error(
@@ -34,11 +48,11 @@ public static class HttpClientRetryPolicy
                 });
     }
 
-    private static IAsyncPolicy<HttpResponseMessage> LinearRetryPolicy()
+    private static IAsyncPolicy<HttpResponseMessage> ConfigureLinearHttpRetry(int retryCount, int secondBetweenRetries)
     {
         return HttpPolicyExtensions
             .HandleTransientHttpError()
-            .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(3),
+            .WaitAndRetryAsync(retryCount, retryAttempt => TimeSpan.FromSeconds(secondBetweenRetries),
                 (exception, retryCount, context) =>
                 {
                     Log.Error(
@@ -46,15 +60,27 @@ public static class HttpClientRetryPolicy
                 });
     }
 
-    private static IAsyncPolicy<HttpResponseMessage> ExponentialRetryPolicy()
+    private static IAsyncPolicy<HttpResponseMessage> ConfigureExponentialHttpRetry(int retryCount,
+        int baseOfExponentiation)
     {
         return HttpPolicyExtensions
             .HandleTransientHttpError()
-            .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)),
+            .WaitAndRetryAsync(retryCount, retryAttempt => TimeSpan.FromSeconds(Math.Pow(baseOfExponentiation, retryAttempt)),
                 (exception, retryCount, context) =>
                 {
                     Log.Error(
                         $"Retry {retryCount} of {context.PolicyKey} at {context.OperationKey} due to {exception.Exception.Message}");
                 });
+    }
+
+    private static IAsyncPolicy<HttpResponseMessage> ConfigureCircuitBreakerPolicy(int eventsAllowedBeforeBreaking,
+        int fromSeconds)
+    {
+        return HttpPolicyExtensions
+            .HandleTransientHttpError()
+            .CircuitBreakerAsync(
+                handledEventsAllowedBeforeBreaking: eventsAllowedBeforeBreaking,
+                durationOfBreak: TimeSpan.FromSeconds(fromSeconds)
+            );
     }
 }

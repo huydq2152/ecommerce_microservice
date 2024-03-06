@@ -93,6 +93,7 @@ public static class ServiceExtension
     {
         services.AddHttpClient<BackgroundJobHttpService>()
             .AddHttpMessageHandler<LoggingDelegatingHandler>()
-            .UseImmediateRetryPolicy();
+            .UseImmediateHttpRetryPolicy()
+            .UseCircuitBreakerPolicy();
     }
 }
