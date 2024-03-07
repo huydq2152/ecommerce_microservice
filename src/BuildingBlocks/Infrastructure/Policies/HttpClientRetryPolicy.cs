@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Polly;
 using Polly.Extensions.Http;
+using Polly.Timeout;
 using Serilog;
 
 namespace Infrastructure.Policies;
@@ -78,6 +79,7 @@ public static class HttpClientRetryPolicy
     {
         return HttpPolicyExtensions
             .HandleTransientHttpError()
+            .Or<TimeoutRejectedException>()
             .CircuitBreakerAsync(
                 handledEventsAllowedBeforeBreaking: eventsAllowedBeforeBreaking,
                 durationOfBreak: TimeSpan.FromSeconds(fromSeconds)
