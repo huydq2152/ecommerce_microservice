@@ -1,4 +1,6 @@
 using Common.Logging;
+using HealthChecks.UI.Client;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Ordering.API.Extensions;
 using Ordering.Application;
 using Ordering.Infrastructure;
@@ -21,6 +23,7 @@ try
     builder.Services.AddControllers();
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
+    builder.Services.ConfigureHealthChecks();
 
     var app = builder.Build();
 
@@ -39,7 +42,17 @@ try
 
     app.UseHttpsRedirection();
     app.UseAuthorization();
-    app.MapDefaultControllerRoute();
+    app.MapControllers();
+    app.UseEndpoints(endpoints =>
+    {
+        endpoints.MapHealthChecks("/hc", new HealthCheckOptions
+        {
+            Predicate = _ => true,
+            ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+        });
+        endpoints.MapDefaultControllerRoute();
+    });
+    
     app.Run();
 }
 catch (Exception ex)

@@ -12,6 +12,7 @@ using Infrastructure.Policies;
 using Inventory.Grpc.Client;
 using MassTransit;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Shared.Configuration;
 
 namespace Basket.API.Extensions;
@@ -96,5 +97,12 @@ public static class ServiceExtension
             .UseImmediateHttpRetryPolicy()
             .UseCircuitBreakerPolicy()
             .ConfigureTimeoutPolicy();
+    }
+    
+    public static void ConfigureHealthChecks(this IServiceCollection services)
+    {
+        var cacheSetting = services.GetOption<CacheSettings>(nameof(CacheSettings));
+        services.AddHealthChecks()
+            .AddRedis(cacheSetting.ConnectionString, name: "Redis Cache", failureStatus: HealthStatus.Degraded);
     }
 }

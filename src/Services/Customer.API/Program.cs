@@ -2,7 +2,9 @@ using Customer.API;
 using Customer.API.Controller;
 using Customer.API.Extensions;
 using Customer.API.Persistence;
+using HealthChecks.UI.Client;
 using Infrastructure.ScheduleJobs;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Serilog;
 
 Log.Logger = new LoggerConfiguration().WriteTo.Console().CreateBootstrapLogger();
@@ -17,14 +19,15 @@ try
     builder.Services.AddConfigurationSettings(builder.Configuration);
     builder.Services.ConfigureCustomerContext();
     builder.Services.AddInfrastructureServices();
-    
+    builder.Services.ConfigureHealthChecks();
+
     builder.Services.AddControllers();
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
     builder.Services.AddAutoMapper(cfg => cfg.AddProfile(new MappingProfile()));
 
     builder.Services.AddHangfireService();
-    
+
     var app = builder.Build();
 
     //Minimal API
@@ -42,7 +45,16 @@ try
     app.MapDefaultControllerRoute();
 
     app.UseHangfireDashboard(builder.Configuration);
-    
+
+    app.UseEndpoints(endpoints =>
+    {
+        endpoints.MapHealthChecks("/hc", new HealthCheckOptions()
+        {
+            Predicate = _ => true,
+            ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+        });
+    });
+
     app.SeedCustomerData()
         .Run();
 }

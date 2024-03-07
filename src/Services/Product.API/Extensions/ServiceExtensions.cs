@@ -7,6 +7,7 @@ using Infrastructure.Extensions;
 using Infrastructure.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.IdentityModel.Tokens;
 using MySqlConnector;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
@@ -25,6 +26,11 @@ public static class ServiceExtensions
         var jwtSettings = configuration.GetSection(nameof(JwtSettings)).Get<JwtSettings>();
         if (jwtSettings == null) throw new ArgumentNullException("JWT settings is not configured");
         services.AddSingleton(jwtSettings);
+
+        var databaseSettings = configuration.GetSection(nameof(DatabaseSettings)).Get<DatabaseSettings>();
+        if (databaseSettings == null) throw new ArgumentNullException("database settings is not configured");
+        services.AddSingleton(databaseSettings);
+
         return services;
     }
 
@@ -42,6 +48,8 @@ public static class ServiceExtensions
         services.AddAutoMapper(cfg => cfg.AddProfile(new MappingProfile()));
 
         services.AddJwtAuthentication();
+
+        services.ConfigureHealthChecks();
 
         return services;
     }
@@ -80,8 +88,13 @@ public static class ServiceExtensions
     private static IServiceCollection ConfigureProductDbContext(this IServiceCollection services,
         IConfiguration configuration)
     {
-        var connectionString = configuration.GetConnectionString("DefaultConnectionString");
-        var builder = new MySqlConnectionStringBuilder(connectionString); //build standard connection string of mysql
+        var databaseSettings = configuration.GetSection(nameof(DatabaseSettings)).Get<DatabaseSettings>();
+        if (databaseSettings == null || string.IsNullOrEmpty(databaseSettings.ConnectionString))
+            throw new ArgumentNullException("Connection string is not configured.");
+
+        var builder =
+            new MySqlConnectionStringBuilder(databaseSettings
+                .ConnectionString); //build standard connection string of mysql
 
         services.AddDbContext<ProductContext>(optionsBuilder => optionsBuilder.UseMySql(builder.ConnectionString,
             serverVersion: ServerVersion.AutoDetect(builder.ConnectionString), contextOptionsBuilder =>
@@ -97,5 +110,13 @@ public static class ServiceExtensions
         return services.AddScoped(typeof(IRepositoryBase<,,>), typeof(RepositoryBase<,,>))
             .AddScoped(typeof(IUnitOfWork<>), typeof(UnitOfWork<>))
             .AddScoped<IProductRepository, ProductRepository>();
+    }
+
+    private static void ConfigureHealthChecks(this IServiceCollection services)
+    {
+        var databaseSettings = services.GetOption<DatabaseSettings>(nameof(DatabaseSettings));
+        services.AddHealthChecks()
+            .AddMySql(databaseSettings.ConnectionString, name: "ProductDb-mysql-check",
+                failureStatus: HealthStatus.Degraded);
     }
 }

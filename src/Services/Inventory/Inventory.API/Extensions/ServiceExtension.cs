@@ -1,6 +1,7 @@
 ﻿using Infrastructure.Extensions;
 using Inventory.API.Services;
 using Inventory.API.Services.Interfaces;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using MongoDB.Driver;
 using Shared.Configuration;
 
@@ -40,5 +41,14 @@ public static class ServiceExtension
     {
         services.AddAutoMapper(cfg => cfg.AddProfile(new MappingProfile()));
         services.AddScoped<IInventoryService, InventoryService>();
+    }
+    
+    public static void ConfigureHealthChecks(this IServiceCollection services)
+    {
+        var databaseSettings = services.GetOption<MongoDbSettings>(nameof(MongoDbSettings));
+        services.AddHealthChecks()
+            .AddMongoDb(GetMongoConnectionString(services),
+                name: "MongoDB Health",
+                failureStatus: HealthStatus.Degraded);
     }
 }

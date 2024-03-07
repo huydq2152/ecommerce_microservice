@@ -1,6 +1,8 @@
 using Common.Logging;
+using HealthChecks.UI.Client;
 using Inventory.Grpc.Extensions;
 using Inventory.Grpc.Services;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,13 +16,27 @@ try
     builder.Services.ConfigureMongoDbClient();
     builder.Services.AddInfrastructureServices();
     builder.Services.AddGrpc();
+    builder.Services.ConfigureHealthChecks();
 
     var app = builder.Build();
-    app.MapGrpcService<InventoryService>();
-    app.MapGet("/",
-        () =>
-            "Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909");
+    app.UseRouting();
+    app.UseEndpoints(endpoints =>
+    {
+        // health checks
+        endpoints.MapHealthChecks("/hc", new HealthCheckOptions()
+        {
+            Predicate = _ => true,
+            ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+        });
+        endpoints.MapGrpcHealthChecksService();
+        endpoints.MapGrpcService<InventoryService>();
+        endpoints.MapGrpcReflectionService();
 
+        endpoints.MapGet("/", async context =>
+        {
+            await context.Response.WriteAsync("Inventory.GRPC - Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909");
+        });
+    });
     app.Run();
 }
 catch (Exception ex)

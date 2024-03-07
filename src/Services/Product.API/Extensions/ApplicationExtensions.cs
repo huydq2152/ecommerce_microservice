@@ -1,11 +1,16 @@
-﻿namespace Product.API.Extensions;
+﻿using HealthChecks.UI.Client;
+using Infrastructure.Middlewares;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+
+namespace Product.API.Extensions;
 
 public static class ApplicationExtensions
 {
     public static void UseInfrastructure(this IApplicationBuilder app)
     {
         app.UseSwagger();
-        app.UseSwaggerUI();
+        app.UseSwaggerUI(options => options.SwaggerEndpoint("/swagger/v1/swagger.json", "Product API v1"));
+        app.UseMiddleware<ErrorWrappingMiddleware>();
         
         app.UseAuthentication();
         app.UseRouting();
@@ -13,6 +18,11 @@ public static class ApplicationExtensions
 
         app.UseEndpoints(endpoints =>
         {
+            endpoints.MapHealthChecks("/hc", new HealthCheckOptions()
+            {
+                Predicate = _ => true,
+                ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+            });
             endpoints.MapDefaultControllerRoute();
         });
     }

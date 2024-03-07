@@ -4,8 +4,10 @@ using Contracts.Services;
 using Hangfire.API.Services;
 using Hangfire.API.Services.Interfaces;
 using Infrastructure.Configurations;
+using Infrastructure.Extensions;
 using Infrastructure.ScheduleJobs;
 using Infrastructure.Services;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Shared.Configuration;
 
 namespace Hangfire.API.Extensions;
@@ -32,5 +34,14 @@ public static class ServiceExtensions
             .AddScoped<IBackgroundJobService, BackgroundJobService>();
 
         return services;
+    }
+    
+    public static void ConfigureHealthChecks(this IServiceCollection services)
+    {
+        var hangfireSettings = services.GetOption<HangfireSettings>(nameof(HangfireSettings));
+        services.AddHealthChecks()
+            .AddMongoDb(hangfireSettings.Storage.ConnectionString,
+                name: "MongoDB Health",
+                failureStatus: HealthStatus.Degraded);
     }
 }
