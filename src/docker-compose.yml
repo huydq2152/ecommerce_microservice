@@ -96,7 +96,7 @@ services:
 #network section
 networks:
   default:
-    name: tedu_microservices
+    name: microservices
     driver: bridge
 
 #volumes section

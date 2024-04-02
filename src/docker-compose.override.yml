@@ -71,7 +71,7 @@ services:
   pgadmin:
     container_name: pgadmin
     environment:
-      - PGADMIN_DEFAULT_EMAIL=admin@tedu.com.vn
+      - PGADMIN_DEFAULT_EMAIL=admin@gmail.com.vn
       - PGADMIN_DEFAULT_PASSWORD=admin1234
     restart: always
     ports:
@@ -134,7 +134,7 @@ services:
       - "ConnectionStrings:DefaultConnectionString=Server=productdb;Port=3306;Database=ProductDb;Uid=root;Pwd=Passw0rd!"
       - "ApiConfiguration:ApiBaseUrl=http://product.api"
       - "ApiConfiguration:IdentityServerBaseUrl=http://localhost:6001"
-      - "ApiConfiguration:IssuerUri=http://tedu.identity.api"
+      - "ApiConfiguration:IssuerUri=http://identity.api"
     depends_on:
       - productdb
     ports:
@@ -256,6 +256,6 @@ services:
       - HealthChecksUI__HealthChecks__5__Name=Scheduled Job Health Check
       - HealthChecksUI__HealthChecks__5__Uri=http://hangfire.api/hc
       - HealthChecksUI__HealthChecks__6__Name=Identity Health Check
-      - HealthChecksUI__HealthChecks__6__Uri=http://tedu.identity.api/hc
+      - HealthChecksUI__HealthChecks__6__Uri=http://identity.api/hc
     ports:
       - "6010:80"

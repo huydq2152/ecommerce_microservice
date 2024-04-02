@@ -40,7 +40,7 @@ try
     {
         endpoints.MapGet("/", async context =>
         {
-            await context.Response.WriteAsync($"Hello tedu member, this is {builder.Environment.ApplicationName}");
+            await context.Response.WriteAsync($"Hello, this is {builder.Environment.ApplicationName}");
         });
     });
     

@@ -10,6 +10,7 @@ public static class Config
         {
             new IdentityResources.OpenId(),
             new IdentityResources.Profile(),
+            new IdentityResources.Email(),
             new()
             {
                 Name = "roles",
@@ -68,6 +69,39 @@ public static class Config
                     "microservices_api.read",
                     "microservices_api.write",
                     "microservices_api"
+                }
+            },
+            new()
+            {
+                ClientName = "Microservices Postman Client",
+                ClientId = "microservices_postman",
+                Enabled = true,
+                ClientUri = null,
+                RequireClientSecret = true,
+                ClientSecrets = new[]
+                {
+                    new Secret("SuperStrongSecret".Sha512())
+                },
+                AllowedGrantTypes = new[]
+                {
+                    GrantType.ClientCredentials,
+                    GrantType.ResourceOwnerPassword
+                },
+                RequireConsent = false,
+                AccessTokenLifetime = 60 * 60 * 2,
+                AllowOfflineAccess = true,
+                RedirectUris = new List<string>
+                {
+                    "https://www.getpostman.com/oauth2/callback"
+                },
+                AllowedScopes =
+                {
+                    IdentityServerConstants.StandardScopes.OpenId,
+                    IdentityServerConstants.StandardScopes.Profile,
+                    IdentityServerConstants.StandardScopes.Email,
+                    "roles",
+                    "microservices_api.read",
+                    "microservices_api.write",
                 }
             },
         };

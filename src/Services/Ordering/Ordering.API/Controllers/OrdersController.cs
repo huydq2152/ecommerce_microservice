@@ -50,7 +50,7 @@ public class OrdersController : ControllerBase
         var request = new MailRequest()
         {
             Body = "hello",
-            Subject = "tedu-microservice test email",
+            Subject = "microservice test email",
             ToAddress = "quanghuyitbkhn@gmail.com"
         };
         await _emailService.SendEmailAsync(request);
