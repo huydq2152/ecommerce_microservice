@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="560aecb7-273f-4965-b92b-dd5d18b40646" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../../aspnetcore-microservice.sln" beforeDir="false" afterPath="$PROJECT_DIR$/../../aspnetcore-microservice.sln" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Config.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Extensions/CookiePolicyExtensions.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Extensions/HostingExtensions.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Extensions/ServiceExtension.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/IdentityServer.csproj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/Account/AccessDenied.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/Account/AccessDenied.cshtml.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/Account/Create/Index.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/Account/Create/Index.cshtml.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/Account/Create/InputModel.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/Account/Login/Index.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/Account/Login/Index.cshtml.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/Account/Login/InputModel.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/Account/Login/LoginOptions.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/Account/Login/ViewModel.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/Account/Logout/Index.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/Account/Logout/Index.cshtml.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/Account/Logout/LoggedOut.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/Account/Logout/LoggedOut.cshtml.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/Account/Logout/LoggedOutViewModel.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/Account/Logout/LogoutOptions.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/Ciba/All.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/Ciba/All.cshtml.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/Ciba/Consent.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/Ciba/Consent.cshtml.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/Ciba/ConsentOptions.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/Ciba/Index.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/Ciba/Index.cshtml.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/Ciba/InputModel.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/Ciba/ViewModel.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/Ciba/_ScopeListItem.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/Consent/ConsentOptions.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/Consent/Index.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/Consent/Index.cshtml.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/Consent/InputModel.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/Consent/ViewModel.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/Consent/_ScopeListItem.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/Device/DeviceOptions.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/Device/Index.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/Device/Index.cshtml.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/Device/InputModel.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/Device/Success.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/Device/Success.cshtml.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/Device/ViewModel.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/Device/_ScopeListItem.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/Diagnostics/Index.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/Diagnostics/Index.cshtml.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/Diagnostics/ViewModel.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/Extensions.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/ExternalLogin/Callback.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/ExternalLogin/Callback.cshtml.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/ExternalLogin/Challenge.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/ExternalLogin/Challenge.cshtml.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/Grants/Index.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/Grants/Index.cshtml.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/Grants/ViewModel.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/Home/Error/Index.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/Home/Error/Index.cshtml.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/Home/Error/ViewModel.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/IdentityServerSuppressions.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/Index.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/Index.cshtml.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/Log.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/Redirect/Index.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/Redirect/Index.cshtml.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/SecurityHeadersAttribute.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/ServerSideSessions/Index.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/ServerSideSessions/Index.cshtml.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/Shared/_Layout.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/Shared/_Nav.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/Shared/_ValidationSummary.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/Telemetry.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/TestUsers.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/_ViewImports.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pages/_ViewStart.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Program.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Properties/launchSettings.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/appsettings.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tempkey.jwk" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wwwroot/css/site.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wwwroot/css/site.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wwwroot/css/site.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wwwroot/duende-logo.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wwwroot/favicon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wwwroot/js/signin-redirect.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wwwroot/js/signout-redirect.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wwwroot/lib/bootstrap/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wwwroot/lib/bootstrap/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.min.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.min.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wwwroot/lib/bootstrap/dist/css/bootstrap.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wwwroot/lib/bootstrap/dist/css/bootstrap.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wwwroot/lib/bootstrap/dist/css/bootstrap.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wwwroot/lib/bootstrap/dist/css/bootstrap.min.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.min.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wwwroot/lib/bootstrap/dist/js/bootstrap.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wwwroot/lib/bootstrap/dist/js/bootstrap.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wwwroot/lib/bootstrap/dist/js/bootstrap.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wwwroot/lib/bootstrap/dist/js/bootstrap.min.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wwwroot/lib/bootstrap4-glyphicons/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wwwroot/lib/bootstrap4-glyphicons/css/bootstrap-glyphicons.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wwwroot/lib/bootstrap4-glyphicons/css/bootstrap-glyphicons.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wwwroot/lib/bootstrap4-glyphicons/fonts/glyphicons/glyphicons-halflings-regular.eot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wwwroot/lib/bootstrap4-glyphicons/fonts/glyphicons/glyphicons-halflings-regular.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wwwroot/lib/bootstrap4-glyphicons/fonts/glyphicons/glyphicons-halflings-regular.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wwwroot/lib/bootstrap4-glyphicons/fonts/glyphicons/glyphicons-halflings-regular.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wwwroot/lib/bootstrap4-glyphicons/fonts/glyphicons/glyphicons-halflings-regular.woff2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wwwroot/lib/bootstrap4-glyphicons/maps/glyphicons-fontawesome.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wwwroot/lib/bootstrap4-glyphicons/maps/glyphicons-fontawesome.less" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wwwroot/lib/bootstrap4-glyphicons/maps/glyphicons-fontawesome.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wwwroot/lib/jquery/LICENSE.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wwwroot/lib/jquery/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wwwroot/lib/jquery/dist/jquery.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wwwroot/lib/jquery/dist/jquery.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wwwroot/lib/jquery/dist/jquery.min.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wwwroot/lib/jquery/dist/jquery.slim.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wwwroot/lib/jquery/dist/jquery.slim.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wwwroot/lib/jquery/dist/jquery.slim.min.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docker-compose.override.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../docker-compose.override.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../docker-compose.yml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="Toolset" />
+  </component>
+  <component name="ProjectId" id="2eYAc0aILfjNl5jUuNYHiMLLi7m" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="560aecb7-273f-4965-b92b-dd5d18b40646" name="Changes" comment="" />
+      <created>1712071213743</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1712071213743</updated>
+      <workItem from="1712071214920" duration="11000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+  </component>
+</project>

@@ -20,6 +20,9 @@ services:
     
   hangfiredb:
     image: mongo
+    
+  identitydb:
+    image: mcr.microsoft.com/mssql/server:2019-latest
   
   #infrastructure section
   
@@ -92,6 +95,12 @@ services:
     build:
       context: .
       dockerfile: WebApps/WebHealthStatus/Dockerfile    
+  
+  identity.api:
+    image: ${DOCKER_REGISTRY-}identity-api:${PLATFORM:-linux}-${TAG:-latest}
+    build:
+      context: .
+      dockerfile: IdentityServer/IdentityServer/Dockerfile
 
 #network section
 networks:
@@ -119,3 +128,5 @@ volumes:
     name: hangfire_mongo_data
   elasticsearch_data:
     name: elasticsearch_data
+  identity_sqlserver_data:
+    external: false
