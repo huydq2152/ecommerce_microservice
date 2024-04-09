@@ -8,11 +8,18 @@
 
 	<ItemGroup>
 		<PackageReference Include="Duende.IdentityServer" Version="6.3.8" />
+		<PackageReference Include="Duende.IdentityServer.EntityFramework" Version="6.3.8" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.28" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.28">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
 
-		<PackageReference Include="Serilog.AspNetCore" Version="6.1.0" />
-
-		<PackageReference Include="Serilog.Enrichers.Environment" Version="3.0.0-dev-00806" />
-
-		<PackageReference Include="Serilog.Sinks.Elasticsearch" Version="9.0.3" />
+	<ItemGroup>
+	  <ProjectReference Include="..\..\BuildingBlocks\Common.Logging\Common.Logging.csproj" />
+	  <ProjectReference Include="..\..\BuildingBlocks\Contracts\Contracts.csproj" />
+	  <ProjectReference Include="..\..\BuildingBlocks\Infrastructure\Infrastructure.csproj" />
+	  <ProjectReference Include="..\..\BuildingBlocks\Shared\Shared.csproj" />
 	</ItemGroup>
 </Project>

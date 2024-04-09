@@ -1,10 +1,12 @@
 ﻿using IdentityServer.Extensions;
 using Serilog;
 
-Log.Information("Starting up");
-
+Log.Logger = new LoggerConfiguration().WriteTo.Console().CreateBootstrapLogger();
 
 var builder = WebApplication.CreateBuilder(args);
+
+Log.Information($"Start {builder.Environment.ApplicationName} up");
+
 try
 {
     builder.Host.AddAppConfigurations();
@@ -18,7 +20,6 @@ try
 }
 catch (Exception ex)
 {
-    // block ex when running migrations
     var type = ex.GetType().Name;
     if (type.Equals("StopTheHostException", StringComparison.Ordinal))
     {
