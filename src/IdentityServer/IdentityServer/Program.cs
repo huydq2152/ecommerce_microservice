@@ -1,4 +1,5 @@
 ﻿using IdentityServer.Extensions;
+using IdentityServer.Persistence;
 using Serilog;
 
 Log.Logger = new LoggerConfiguration().WriteTo.Console().CreateBootstrapLogger();
@@ -16,7 +17,7 @@ try
         .ConfigureServices()
         .ConfigurePipeline();
     
-    app.Run();
+    app.MigrateDatabase().Run();
 }
 catch (Exception ex)
 {

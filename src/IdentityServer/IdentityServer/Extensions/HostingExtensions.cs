@@ -53,11 +53,16 @@ internal static class HostingExtensions
     {
         // uncomment if you want to add a UI
         builder.Services.AddRazorPages();
-
-        builder.Services.ConfigureIdentityServer(builder.Configuration);
+        
+        // fix can't login with identity server when Username and Password is correct
         builder.Services.ConfigureCookiePolicy();
         
+        // configure cors
         builder.Services.ConfigureCors();
+
+        // need config for identity before identity server
+        builder.Services.ConfigureIdentity(builder.Configuration);
+        builder.Services.ConfigureIdentityServer(builder.Configuration);
         
         return builder.Build();
     }

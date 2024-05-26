@@ -1,4 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using IdentityServer.Entities;
+using IdentityServer.Persistence;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace IdentityServer.Extensions;
 
@@ -23,11 +27,11 @@ public static class ServiceExtension
             })
             // not create signing credential in production
             .AddDeveloperSigningCredential()
-            .AddInMemoryIdentityResources(Config.IdentityResources)
-            .AddInMemoryApiScopes(Config.ApiScopes)
-            .AddInMemoryClients(Config.Clients)
-            .AddInMemoryApiResources(Config.ApiResources)
-            .AddTestUsers(TestUsers.Users)
+            // .AddInMemoryIdentityResources(Config.IdentityResources)
+            // .AddInMemoryApiScopes(Config.ApiScopes)
+            // .AddInMemoryClients(Config.Clients)
+            // .AddInMemoryApiResources(Config.ApiResources)
+            // .AddTestUsers(TestUsers.Users)
             .AddConfigurationStore(options =>
             {
                 options.ConfigureDbContext = builder => builder.UseSqlServer(
@@ -39,7 +43,8 @@ public static class ServiceExtension
                 options.ConfigureDbContext = builder => builder.UseSqlServer(
                     connectionString,
                     optionsBuilder => optionsBuilder.MigrationsAssembly("IdentityServer"));
-            });
+            })
+            .AddAspNetIdentity<User>();
     }
 
     public static void ConfigureCors(this IServiceCollection services)
@@ -51,5 +56,30 @@ public static class ServiceExtension
                 .AllowAnyMethod()
                 .AllowAnyHeader());
         });
+    }
+
+    public static void ConfigureIdentity(this IServiceCollection services, IConfiguration configuration)
+    {
+        var connectionString = configuration.GetConnectionString("IdentitySqlConnection");
+        if (string.IsNullOrEmpty(connectionString))
+        {
+            throw new ArgumentNullException("IdentitySqlConnection is not configured.");
+        }
+
+        services
+            .AddDbContext<IdentityContext>(options => options.UseSqlServer(connectionString))
+            .AddIdentity<User, IdentityRole>(opt =>
+            {
+                opt.Password.RequireDigit = false;
+                opt.Password.RequiredLength = 6;
+                opt.Password.RequireUppercase = false;
+                opt.Password.RequireLowercase = false;
+                opt.User.RequireUniqueEmail = true;
+                opt.Lockout.AllowedForNewUsers = true;
+                opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                opt.Lockout.MaxFailedAccessAttempts = 3;
+            })
+            .AddEntityFrameworkStores<IdentityContext>()
+            .AddDefaultTokenProviders();
     }
 }
