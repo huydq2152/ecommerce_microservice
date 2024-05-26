@@ -12,7 +12,7 @@ public class IdentityContext : IdentityDbContext<User>
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
+        builder.ApplyIdentityConfiguration();
         builder.ApplyConfigurationsFromAssembly(typeof(IdentityContext).Assembly);
-        base.OnModelCreating(builder);
     }
 }

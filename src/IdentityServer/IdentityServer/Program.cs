@@ -17,6 +17,13 @@ try
         .ConfigureServices()
         .ConfigurePipeline();
     
+    var identityConnectionString = builder.Configuration.GetConnectionString("IdentitySqlConnection");
+    if(identityConnectionString == null)
+    {
+        throw new ArgumentNullException("IdentitySqlConnection is not configured.");
+    }
+    SeedUserData.EnsureSeedData(identityConnectionString);
+    
     app.MigrateDatabase().Run();
 }
 catch (Exception ex)

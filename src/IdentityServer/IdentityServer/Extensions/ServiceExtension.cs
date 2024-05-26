@@ -44,7 +44,8 @@ public static class ServiceExtension
                     connectionString,
                     optionsBuilder => optionsBuilder.MigrationsAssembly("IdentityServer"));
             })
-            .AddAspNetIdentity<User>();
+            .AddAspNetIdentity<User>()
+            .AddProfileService<IdentityProfileService>();
     }
 
     public static void ConfigureCors(this IServiceCollection services)
