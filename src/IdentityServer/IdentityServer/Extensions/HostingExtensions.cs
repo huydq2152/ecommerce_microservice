@@ -1,3 +1,6 @@
+using Contracts.Common.Interfaces;
+using IdentityServer.Repositories;
+using IdentityServer.Services.EmailService;
 using Serilog;
 using Serilog.Sinks.Elasticsearch;
 
@@ -15,7 +18,7 @@ internal static class HostingExtensions
                 .AddEnvironmentVariables();
         });
     }
-    
+
     public static void ConfigureSerilog(this ConfigureHostBuilder host)
     {
         host.UseSerilog((context, configuration) =>
@@ -48,22 +51,29 @@ internal static class HostingExtensions
                 .ReadFrom.Configuration(context.Configuration);
         });
     }
-    
+
     public static WebApplication ConfigureServices(this WebApplicationBuilder builder)
     {
         // uncomment if you want to add a UI
         builder.Services.AddRazorPages();
-        
+
+        builder.Services.AddConfigurationSettings(builder.Configuration);
+        builder.Services.AddScoped<IEmailSender, SmtpEmailService>();
+
         // fix can't login with identity server when Username and Password is correct
         builder.Services.ConfigureCookiePolicy();
-        
+
         // configure cors
         builder.Services.ConfigureCors();
 
         // need config for identity before identity server
         builder.Services.ConfigureIdentity(builder.Configuration);
         builder.Services.ConfigureIdentityServer(builder.Configuration);
-        
+
+        builder.Services.AddTransient(typeof(IUnitOfWork<>), typeof(IUnitOfWork<>));
+        builder.Services.AddTransient(typeof(IRepositoryBase<,>), typeof(IRepositoryBase<,>));
+        builder.Services.AddScoped<IRepositoryManager, RepositoryManager>();
+
         return builder.Build();
     }
 
@@ -78,7 +88,7 @@ internal static class HostingExtensions
 
         // uncomment if you want to add a UI
         app.UseStaticFiles();
-        
+
         app.UseCors("CorsPolicy");
         app.UseRouting();
 
@@ -95,6 +105,4 @@ internal static class HostingExtensions
 
         return app;
     }
-    
-    
 }

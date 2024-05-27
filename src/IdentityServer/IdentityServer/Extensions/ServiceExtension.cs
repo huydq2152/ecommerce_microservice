@@ -1,13 +1,27 @@
 ﻿using IdentityServer.Entities;
 using IdentityServer.Persistence;
+using Infrastructure.Configurations;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace IdentityServer.Extensions;
 
 public static class ServiceExtension
 {
+    internal static IServiceCollection AddConfigurationSettings(this IServiceCollection services,
+        IConfiguration configuration)
+    {
+        var emailSettings = configuration.GetSection(nameof(SmtpEmailSetting)).Get<SmtpEmailSetting>();
+        if (emailSettings == null)
+        {
+            throw new ArgumentNullException("SmtpEmailSetting is not configured.");
+        }
+
+        services.AddSingleton(emailSettings);
+
+        return services;
+    }
+
     public static void ConfigureIdentityServer(this IServiceCollection services, IConfiguration configuration)
     {
         var connectionString = configuration.GetConnectionString("IdentitySqlConnection");
