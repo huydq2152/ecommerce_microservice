@@ -7,6 +7,11 @@ namespace IdentityServer.Infrastructure.Entities;
 
 public class Permission: EntityBase<int>
 {
+    public Permission()
+    {
+        
+    }
+    
     public Permission(string function, string command, string roleId)
     {
         Function = function;
