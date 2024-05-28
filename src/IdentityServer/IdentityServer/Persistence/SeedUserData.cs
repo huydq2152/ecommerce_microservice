@@ -1,7 +1,7 @@
 ﻿using System.Security.Claims;
 using IdentityModel;
-using IdentityServer.Common;
-using IdentityServer.Entities;
+using IdentityServer.Infrastructure.Common;
+using IdentityServer.Infrastructure.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 

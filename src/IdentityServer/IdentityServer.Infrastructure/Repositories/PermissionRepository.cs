@@ -1,9 +1,9 @@
 ﻿using Contracts.Common.Interfaces;
-using IdentityServer.Entities;
+using IdentityServer.Infrastructure.Entities;
 using IdentityServer.Persistence;
 using Infrastructure.Common.Repositories;
 
-namespace IdentityServer.Common.Repositories;
+namespace IdentityServer.Infrastructure.Repositories;
 
 public class PermissionRepository: RepositoryBase<Permission, int, IdentityContext>, IPermissionRepository 
 {

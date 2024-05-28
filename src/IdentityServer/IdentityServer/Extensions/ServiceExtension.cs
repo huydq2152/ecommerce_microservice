@@ -1,4 +1,4 @@
-﻿using IdentityServer.Entities;
+﻿using IdentityServer.Infrastructure.Entities;
 using IdentityServer.Persistence;
 using Infrastructure.Configurations;
 using Microsoft.AspNetCore.Identity;

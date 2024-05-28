@@ -3,8 +3,8 @@ using System.Text.Json;
 using Duende.IdentityServer.Extensions;
 using Duende.IdentityServer.Models;
 using Duende.IdentityServer.Services;
-using IdentityServer.Common;
-using IdentityServer.Entities;
+using IdentityServer.Infrastructure.Common;
+using IdentityServer.Infrastructure.Entities;
 using Microsoft.AspNetCore.Identity;
 
 namespace IdentityServer.Extensions;

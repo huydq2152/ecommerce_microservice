@@ -10,9 +10,7 @@
 		<PackageReference Include="Duende.IdentityServer" Version="6.3.8" />
 		<PackageReference Include="Duende.IdentityServer.AspNetIdentity" Version="6.3.8" />
 		<PackageReference Include="Duende.IdentityServer.EntityFramework" Version="6.3.8" />
-		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.30" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.28" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.28">
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.30">
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
@@ -25,6 +23,11 @@
 	  <ProjectReference Include="..\..\BuildingBlocks\Contracts\Contracts.csproj" />
 	  <ProjectReference Include="..\..\BuildingBlocks\Infrastructure\Infrastructure.csproj" />
 	  <ProjectReference Include="..\..\BuildingBlocks\Shared\Shared.csproj" />
+	  <ProjectReference Include="..\IdentityServer.Infrastructure\IdentityServer.Infrastructure.csproj" />
 	  <ProjectReference Include="..\IdentityServer.Presentation\IdentityServer.Presentation.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Common\" />
 	</ItemGroup>
 </Project>

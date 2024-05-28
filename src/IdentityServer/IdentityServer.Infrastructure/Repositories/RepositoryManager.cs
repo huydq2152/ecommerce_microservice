@@ -1,10 +1,10 @@
 ﻿using Contracts.Common.Interfaces;
-using IdentityServer.Entities;
+using IdentityServer.Infrastructure.Entities;
 using IdentityServer.Persistence;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore.Storage;
 
-namespace IdentityServer.Common.Repositories;
+namespace IdentityServer.Infrastructure.Repositories;
 
 public class RepositoryManager : IRepositoryManager
 {

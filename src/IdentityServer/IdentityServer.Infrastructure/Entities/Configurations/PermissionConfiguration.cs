@@ -1,8 +1,8 @@
-﻿using IdentityServer.Common;
+﻿using IdentityServer.Infrastructure.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace IdentityServer.Entities.Configurations;
+namespace IdentityServer.Infrastructure.Entities.Configurations;
 
 public class PermissionConfiguration: IEntityTypeConfiguration<Permission>
 {

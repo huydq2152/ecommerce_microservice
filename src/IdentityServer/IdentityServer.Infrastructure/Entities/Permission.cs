@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Contracts.Domains;
 using Microsoft.AspNetCore.Identity;
 
-namespace IdentityServer.Entities;
+namespace IdentityServer.Infrastructure.Entities;
 
 public class Permission: EntityBase<int>
 {

@@ -1,8 +1,8 @@
-﻿using IdentityServer.Entities;
+﻿using IdentityServer.Infrastructure.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore.Storage;
 
-namespace IdentityServer.Common.Repositories;
+namespace IdentityServer.Infrastructure.Repositories;
 
 public interface IRepositoryManager
 {

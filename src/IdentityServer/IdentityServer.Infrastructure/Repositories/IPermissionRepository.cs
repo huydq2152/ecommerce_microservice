@@ -1,7 +1,7 @@
 ﻿using Contracts.Common.Interfaces;
-using IdentityServer.Entities;
+using IdentityServer.Infrastructure.Entities;
 
-namespace IdentityServer.Common.Repositories;
+namespace IdentityServer.Infrastructure.Repositories;
 
 public interface IPermissionRepository: IRepositoryBase<Permission,int>
 {

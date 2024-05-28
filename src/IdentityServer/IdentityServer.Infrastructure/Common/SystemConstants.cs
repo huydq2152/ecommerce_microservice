@@ -1,4 +1,4 @@
-﻿namespace IdentityServer.Common;
+﻿namespace IdentityServer.Infrastructure.Common;
 
 public static class SystemConstants
 {

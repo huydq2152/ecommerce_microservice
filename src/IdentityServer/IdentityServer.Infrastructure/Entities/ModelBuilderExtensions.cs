@@ -1,9 +1,9 @@
-﻿using IdentityServer.Common;
+﻿using IdentityServer.Infrastructure.Common;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace IdentityServer.Entities;
+namespace IdentityServer.Infrastructure.Entities;
 
 public static class ModelBuilderExtensions
 {

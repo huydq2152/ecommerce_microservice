@@ -1,5 +1,5 @@
 using Contracts.Common.Interfaces;
-using IdentityServer.Common.Repositories;
+using IdentityServer.Infrastructure.Repositories;
 using IdentityServer.Presentation;
 using IdentityServer.Services.EmailService;
 using Infrastructure.Common;
