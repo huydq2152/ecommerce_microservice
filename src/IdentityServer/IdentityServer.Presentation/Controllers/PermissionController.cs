@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using IdentityServer.Infrastructure.Repositories;
+using Microsoft.AspNetCore.Mvc;
 
 namespace IdentityServer.Presentation.Controllers;
 
@@ -6,8 +7,10 @@ namespace IdentityServer.Presentation.Controllers;
 [Route("/api/[controller]")]
 public class PermissionController : ControllerBase
 {
-    public PermissionController()
+    private readonly IRepositoryManager _repositoryManager;
+
+    public PermissionController(IRepositoryManager repositoryManager)
     {
-        
+        _repositoryManager = repositoryManager;
     }
 }
