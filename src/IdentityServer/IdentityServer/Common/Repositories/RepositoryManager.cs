@@ -4,24 +4,28 @@ using IdentityServer.Persistence;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore.Storage;
 
-namespace IdentityServer.Repositories;
+namespace IdentityServer.Common.Repositories;
 
 public class RepositoryManager : IRepositoryManager
 {
     private readonly IUnitOfWork<IdentityContext> _unitOfWork;
     private readonly IdentityContext _identityContext;
+    private readonly Lazy<IPermissionRepository> _permissionRepository;
 
     public RepositoryManager(IUnitOfWork<IdentityContext> unitOfWork, IdentityContext identityContext,
-        UserManager<User> userManager, RoleManager<User> roleManager)
+        UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
     {
         _unitOfWork = unitOfWork;
         _identityContext = identityContext;
         UserManager = userManager;
         RoleManager = roleManager;
+        _permissionRepository =
+            new Lazy<IPermissionRepository>(() => new PermissionRepository(_identityContext, _unitOfWork));
     }
 
     public UserManager<User> UserManager { get; }
-    public RoleManager<User> RoleManager { get; }
+    public RoleManager<IdentityRole> RoleManager { get; }
+    public IPermissionRepository Permission => _permissionRepository.Value;
 
     public async Task<int> SaveChangesAsync()
     {

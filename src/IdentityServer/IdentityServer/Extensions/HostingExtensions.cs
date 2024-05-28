@@ -1,6 +1,9 @@
 using Contracts.Common.Interfaces;
-using IdentityServer.Repositories;
+using IdentityServer.Common.Repositories;
+using IdentityServer.Presentation;
 using IdentityServer.Services.EmailService;
+using Infrastructure.Common;
+using Infrastructure.Common.Repositories;
 using Serilog;
 using Serilog.Sinks.Elasticsearch;
 
@@ -70,10 +73,19 @@ internal static class HostingExtensions
         builder.Services.ConfigureIdentity(builder.Configuration);
         builder.Services.ConfigureIdentityServer(builder.Configuration);
 
-        builder.Services.AddTransient(typeof(IUnitOfWork<>), typeof(IUnitOfWork<>));
-        builder.Services.AddTransient(typeof(IRepositoryBase<,>), typeof(IRepositoryBase<,>));
+        builder.Services.AddTransient(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
+        builder.Services.AddTransient(typeof(IRepositoryBase<,,>), typeof(RepositoryBase<,,>));
         builder.Services.AddScoped<IRepositoryManager, RepositoryManager>();
+        builder.Services.AddScoped<IPermissionRepository, PermissionRepository>();
+        
+        builder.Services.AddControllers(config =>
+        {
+            config.RespectBrowserAcceptHeader = true;
+            config.ReturnHttpNotAcceptable = true;
+        }).AddApplicationPart(typeof(AssemblyReference).Assembly);
 
+        builder.Services.ConfigureSwagger(builder.Configuration);
+        
         return builder.Build();
     }
 
@@ -90,6 +102,8 @@ internal static class HostingExtensions
         app.UseStaticFiles();
 
         app.UseCors("CorsPolicy");
+        app.UseSwagger();
+        app.UseSwaggerUI(config => config.SwaggerEndpoint("/swagger/v1/swagger.json", "Identity Server API"));
         app.UseRouting();
 
         app.UseCookiePolicy();

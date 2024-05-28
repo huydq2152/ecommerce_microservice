@@ -16,6 +16,8 @@
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+		<PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.6.2" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -23,5 +25,6 @@
 	  <ProjectReference Include="..\..\BuildingBlocks\Contracts\Contracts.csproj" />
 	  <ProjectReference Include="..\..\BuildingBlocks\Infrastructure\Infrastructure.csproj" />
 	  <ProjectReference Include="..\..\BuildingBlocks\Shared\Shared.csproj" />
+	  <ProjectReference Include="..\IdentityServer.Presentation\IdentityServer.Presentation.csproj" />
 	</ItemGroup>
 </Project>

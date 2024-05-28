@@ -2,13 +2,13 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore.Storage;
 
-namespace IdentityServer.Repositories;
+namespace IdentityServer.Common.Repositories;
 
 public interface IRepositoryManager
 {
     UserManager<User> UserManager { get; }
-    RoleManager<User> RoleManager { get; }
-
+    RoleManager<IdentityRole> RoleManager { get; }
+    IPermissionRepository Permission { get; }
     Task<int> SaveChangesAsync();
     Task<IDbContextTransaction> BeginTransactionAsync();
     Task EndTransactionAsync();

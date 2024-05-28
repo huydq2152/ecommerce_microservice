@@ -3,6 +3,7 @@ using IdentityServer.Persistence;
 using Infrastructure.Configurations;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 
 namespace IdentityServer.Extensions;
 
@@ -96,5 +97,25 @@ public static class ServiceExtension
             })
             .AddEntityFrameworkStores<IdentityContext>()
             .AddDefaultTokenProviders();
+    }
+
+    public static void ConfigureSwagger(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddEndpointsApiExplorer();
+        services.AddSwaggerGen(config =>
+        {
+            config.EnableAnnotations();
+            config.SwaggerDoc("v1", new OpenApiInfo
+            {
+                Title = "Identity Server API",
+                Version = "v1",
+                Contact = new OpenApiContact
+                {
+                    Name = "Identity Service",
+                    Email = "quanghuy2152@gmail.com",
+                    Url = new Uri("https://huydang.dev")
+                },
+            });
+        });
     }
 }
