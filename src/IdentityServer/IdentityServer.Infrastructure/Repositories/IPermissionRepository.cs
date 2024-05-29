@@ -4,8 +4,11 @@ using IdentityServer.Infrastructure.ViewModels;
 
 namespace IdentityServer.Infrastructure.Repositories;
 
-public interface IPermissionRepository: IIdentityRepositoryBase<Permission,int>
+public interface IPermissionRepository : IIdentityRepositoryBase<Permission, int>
 {
     Task<IReadOnlyList<PermissionViewModel>> GetPermissionsByRole(string roleId);
-    void UpdatePermissionByRoleId(string roleId, IEnumerable<Permission> permissions, bool trackChanges);
+    Task<PermissionViewModel?> CreatePermission(string roleId, PermissionAddModel model);
+    Task UpdatePermissionsByRoleId(string roleId, IEnumerable<PermissionAddModel> permissionCollection);
+    Task DeletePermission(string roleId, string function, string command);
+    Task<IEnumerable<PermissionUserViewModel>> GetPermissionsByUser(User user);
 }

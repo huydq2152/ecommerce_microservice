@@ -1,4 +1,5 @@
-﻿using Contracts.Common.Interfaces;
+﻿using AutoMapper;
+using Contracts.Common.Interfaces;
 using IdentityServer.Infrastructure.Entities;
 using IdentityServer.Persistence;
 using Microsoft.AspNetCore.Identity;
@@ -11,16 +12,19 @@ public class RepositoryManager : IRepositoryManager
     private readonly IUnitOfWork<IdentityContext> _unitOfWork;
     private readonly IdentityContext _identityContext;
     private readonly Lazy<IPermissionRepository> _permissionRepository;
+    private readonly IMapper _mapper;
 
     public RepositoryManager(IUnitOfWork<IdentityContext> unitOfWork, IdentityContext identityContext,
-        UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
+        UserManager<User> userManager, RoleManager<IdentityRole> roleManager, IMapper mapper)
     {
         _unitOfWork = unitOfWork;
         _identityContext = identityContext;
         UserManager = userManager;
         RoleManager = roleManager;
+        _mapper = mapper;
         _permissionRepository =
-            new Lazy<IPermissionRepository>(() => new PermissionRepository(_identityContext, _unitOfWork));
+            new Lazy<IPermissionRepository>(() =>
+                new PermissionRepository(_identityContext, _unitOfWork, userManager, mapper));
     }
 
     public UserManager<User> UserManager { get; }

@@ -7,16 +7,17 @@ namespace IdentityServer.Infrastructure.Entities;
 
 public class Permission: EntityBase<int>
 {
-    public Permission()
-    {
-        
-    }
-    
     public Permission(string function, string command, string roleId)
     {
-        Function = function;
-        Command = command;
+        Function = function.ToUpper();
+        Command = command.ToUpper();
         RoleId = roleId;
+    }
+    
+    public Permission(int id, string function, string command, string roleId) 
+        : this(function, command, roleId)
+    {
+        Id = id;
     }
     
     [Key]
