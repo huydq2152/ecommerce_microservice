@@ -61,6 +61,8 @@ internal static class HostingExtensions
         // uncomment if you want to add a UI
         builder.Services.AddRazorPages();
 
+        builder.Services.AddAutoMapper(typeof(Program));
+
         builder.Services.AddConfigurationSettings(builder.Configuration);
         builder.Services.AddScoped<IEmailSender, SmtpEmailService>();
 
