@@ -4,6 +4,7 @@ using IdentityServer.Presentation;
 using IdentityServer.Services.EmailService;
 using Infrastructure.Common;
 using Infrastructure.Common.Repositories;
+using Microsoft.AspNetCore.Mvc;
 using Serilog;
 using Serilog.Sinks.Elasticsearch;
 
@@ -82,9 +83,13 @@ internal static class HostingExtensions
         {
             config.RespectBrowserAcceptHeader = true;
             config.ReturnHttpNotAcceptable = true;
+            config.Filters.Add(new ProducesAttribute("application/json", "text/plain", "text/json"));
         }).AddApplicationPart(typeof(AssemblyReference).Assembly);
 
+        builder.Services.ConfigureAuthentication();
+        builder.Services.ConfigureAuthorization();
         builder.Services.ConfigureSwagger(builder.Configuration);
+        builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
         
         return builder.Build();
     }
@@ -103,8 +108,14 @@ internal static class HostingExtensions
 
         app.UseCors("CorsPolicy");
         app.UseSwagger();
-        app.UseSwaggerUI(config => config.SwaggerEndpoint("/swagger/v1/swagger.json", "Identity Server API"));
+        app.UseSwaggerUI(config =>
+        {
+            config.OAuthClientId("microservices_swagger");
+            config.SwaggerEndpoint("/swagger/v1/swagger.json", "Identity Server API");
+            config.DisplayRequestDuration();
+        });
         app.UseRouting();
+        app.UseMiddleware<ErrorWrappingMiddleware>();
 
         app.UseCookiePolicy();
         app.UseIdentityServer();
@@ -113,7 +124,7 @@ internal static class HostingExtensions
         app.UseAuthorization();
         app.UseEndpoints(endpoints =>
         {
-            endpoints.MapDefaultControllerRoute().RequireAuthorization();
+            endpoints.MapDefaultControllerRoute().RequireAuthorization("Bearer");
             endpoints.MapRazorPages().RequireAuthorization();
         });
 

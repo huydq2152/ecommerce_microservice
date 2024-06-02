@@ -156,4 +156,25 @@ public static class ServiceExtension
             });
         });
     }
+    
+    public static void ConfigureAuthentication(this IServiceCollection services)
+    {
+        services.AddAuthentication()
+            .AddLocalApi("Bearer", options =>
+            {
+                options.ExpectedScope = "microservices_api.read";
+            });
+    }
+
+    public static void ConfigureAuthorization(this IServiceCollection services)
+    {
+        services.AddAuthorization(options =>
+        {
+            options.AddPolicy("Bearer", policy =>
+            {
+                policy.AddAuthenticationSchemes("Bearer");
+                policy.RequireAuthenticatedUser();
+            });
+        });
+    }
 }

@@ -68,7 +68,8 @@ public static class Config
                     IdentityServerConstants.StandardScopes.Email,
                     "microservices_api.read",
                     "microservices_api.write",
-                    "microservices_api"
+                    "microservices_api",
+                    "roles"
                 }
             },
             new()
@@ -102,6 +103,7 @@ public static class Config
                     "roles",
                     "microservices_api.read",
                     "microservices_api.write",
+                    "microservices_api",
                 }
             },
         };

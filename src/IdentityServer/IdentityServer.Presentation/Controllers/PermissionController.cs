@@ -2,12 +2,14 @@
 using System.Net;
 using IdentityServer.Infrastructure.Repositories;
 using IdentityServer.Infrastructure.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IdentityServer.Presentation.Controllers;
 
 [ApiController]
 [Route("api/roles/{roleId}/[controller]")]
+[Authorize("Bearer")]
 public class PermissionController : ControllerBase
 {
     private readonly IRepositoryManager _repositoryManager;
