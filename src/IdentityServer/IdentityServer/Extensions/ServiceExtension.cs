@@ -116,6 +116,43 @@ public static class ServiceExtension
                     Url = new Uri("https://huydang.dev")
                 },
             });
+            
+            var identityServerBaseUrl = configuration.GetSection("IdentityServer:BaseUrl").Value;
+
+            config.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+            {
+                Type = SecuritySchemeType.OAuth2,
+                Flows = new OpenApiOAuthFlows()
+                {
+                    Implicit = new OpenApiOAuthFlow()
+                    {
+                        AuthorizationUrl = new Uri($"{identityServerBaseUrl}/connect/authorize"),
+                        Scopes = new Dictionary<string, string>()
+                        {
+                            {"microservices_api.read", "Microservices API Read Scope"},
+                            {"microservices_api.write", "Microservices API Write Scope"}
+                        }
+                    }
+                }
+            });
+            config.AddSecurityRequirement(new OpenApiSecurityRequirement()
+            {
+                {
+                    new OpenApiSecurityScheme()
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        }
+                    },
+                    new List<string>()
+                    {
+                        "microservices_api.read",
+                        "microservices_api.write"
+                    }
+                }
+            });
         });
     }
 }
