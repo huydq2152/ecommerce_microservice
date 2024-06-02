@@ -96,6 +96,7 @@ public static class ServiceExtension
                 opt.Lockout.MaxFailedAccessAttempts = 3;
             })
             .AddEntityFrameworkStores<IdentityContext>()
+            .AddUserStore<UserStore>()
             .AddDefaultTokenProviders();
     }
 

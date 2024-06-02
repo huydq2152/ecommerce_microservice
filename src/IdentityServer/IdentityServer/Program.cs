@@ -16,15 +16,11 @@ try
     var app = builder
         .ConfigureServices()
         .ConfigurePipeline();
+    await app.MigrateDatabaseAsync(builder.Configuration);
     
-    var identityConnectionString = builder.Configuration.GetConnectionString("IdentitySqlConnection");
-    if(identityConnectionString == null)
-    {
-        throw new ArgumentNullException("IdentitySqlConnection is not configured.");
-    }
-    SeedUserData.EnsureSeedData(identityConnectionString);
+    await builder.Services.EnsureSeedDataAsync();
     
-    app.MigrateDatabase().Run();
+    app.Run();
 }
 catch (Exception ex)
 {

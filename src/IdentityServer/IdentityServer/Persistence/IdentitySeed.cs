@@ -6,60 +6,61 @@ namespace IdentityServer.Persistence;
 
 public static class IdentitySeed
 {
-    public static IHost MigrateDatabase(this IHost host)
+    public static async Task<IHost> MigrateDatabaseAsync(this IHost host, IConfiguration configuration)
     {
+        var connectionString = configuration.GetConnectionString("IdentitySqlConnection");
         using var scope = host.Services.CreateScope();
-        scope.ServiceProvider
-            .GetRequiredService<PersistedGrantDbContext>()
-            .Database
-            .Migrate();
 
-        using var context = scope.ServiceProvider
+        await using var configurationDbContext = scope.ServiceProvider
             .GetRequiredService<ConfigurationDbContext>();
+        configurationDbContext.Database.SetConnectionString(connectionString);
+        await configurationDbContext.Database.MigrateAsync();
 
+        await using var persistedGrantDbContext = scope.ServiceProvider
+            .GetRequiredService<PersistedGrantDbContext>();
+        persistedGrantDbContext.Database.SetConnectionString(connectionString);
+        await persistedGrantDbContext.Database.MigrateAsync();
+
+        await using var identityContext = scope.ServiceProvider
+           .GetRequiredService<IdentityContext>();
+        identityContext.Database.SetConnectionString(connectionString);
+        await identityContext.Database.MigrateAsync();
         try
         {
-            context.Database.Migrate();
-
-            if (!context.Clients.Any())
+            if (!configurationDbContext.Clients.Any())
             {
                 foreach (var client in Config.Clients)
                 {
-                    context.Clients.Add(client.ToEntity());
+                    configurationDbContext.Clients.Add(client.ToEntity());
                 }
-
-                context.SaveChanges();
             }
 
-            if (!context.IdentityResources.Any())
+            if (!configurationDbContext.IdentityResources.Any())
             {
                 foreach (var resource in Config.IdentityResources)
                 {
-                    context.IdentityResources.Add(resource.ToEntity());
+                    configurationDbContext.IdentityResources.Add(resource.ToEntity());
                 }
-
-                context.SaveChanges();
             }
 
-            if (!context.ApiScopes.Any())
+            if (!configurationDbContext.ApiScopes.Any())
             {
                 foreach (var apiScope in Config.ApiScopes)
                 {
-                    context.ApiScopes.Add(apiScope.ToEntity());
+                    configurationDbContext.ApiScopes.Add(apiScope.ToEntity());
                 }
-
-                context.SaveChanges();
             }
 
-            if (!context.ApiResources.Any())
+            if (!configurationDbContext.ApiResources.Any())
             {
                 foreach (var resource in Config.ApiResources)
                 {
-                    context.ApiResources.Add(resource.ToEntity());
+                    configurationDbContext.ApiResources.Add(resource.ToEntity());
                 }
-
-                context.SaveChanges();
             }
+
+            await configurationDbContext.SaveChangesAsync();
+            await identityContext.SaveChangesAsync();
         }
         catch (Exception e)
         {
