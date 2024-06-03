@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using AutoMapper;
 using Contracts.Common.Interfaces;
+using IdentityServer4.AccessTokenValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +14,7 @@ namespace Product.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize(IdentityServerAuthenticationDefaults.AuthenticationScheme)]
 public class ProductsController : ControllerBase
 {
     private readonly IProductRepository _productRepository;

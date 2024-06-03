@@ -9,7 +9,12 @@ public static class ApplicationExtensions
     public static void UseInfrastructure(this IApplicationBuilder app)
     {
         app.UseSwagger();
-        app.UseSwaggerUI(options => options.SwaggerEndpoint("/swagger/v1/swagger.json", "Product API v1"));
+        app.UseSwaggerUI(options =>
+        {
+            options.OAuthClientId("microservices_swagger");
+            options.SwaggerEndpoint("/swagger/v1/swagger.json", "Product API v1");
+            options.DisplayRequestDuration();
+        });
         app.UseMiddleware<ErrorWrappingMiddleware>();
         
         app.UseAuthentication();

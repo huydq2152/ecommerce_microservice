@@ -1,6 +1,5 @@
 ﻿using System.Text;
 using Contracts.Common.Interfaces;
-using Contracts.Identity;
 using Infrastructure.Common;
 using Infrastructure.Common.Repositories;
 using Infrastructure.Extensions;
@@ -9,6 +8,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using MySqlConnector;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using Product.API.Persistence;
@@ -30,6 +30,10 @@ public static class ServiceExtensions
         var databaseSettings = configuration.GetSection(nameof(DatabaseSettings)).Get<DatabaseSettings>();
         if (databaseSettings == null) throw new ArgumentNullException("database settings is not configured");
         services.AddSingleton(databaseSettings);
+        
+        var apiConfiguration = configuration.GetSection(nameof(ApiConfiguration)).Get<ApiConfiguration>();
+        if (apiConfiguration == null) throw new ArgumentNullException("api configuration is not configured");
+        services.AddSingleton(apiConfiguration);
 
         return services;
     }
@@ -41,13 +45,15 @@ public static class ServiceExtensions
         services.AddControllers();
         services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
         services.AddEndpointsApiExplorer();
-        services.AddSwaggerGen();
+        services.ConfigureSwagger();
 
         services.ConfigureProductDbContext(configuration);
         services.AddInfrastructureServices();
         services.AddAutoMapper(cfg => cfg.AddProfile(new MappingProfile()));
 
-        services.AddJwtAuthentication();
+        // services.AddJwtAuthentication();
+        services.ConfigureAuthenticationHandler();
+        services.ConfigureAuthorization();
 
         services.ConfigureHealthChecks();
 
@@ -118,5 +124,60 @@ public static class ServiceExtensions
         services.AddHealthChecks()
             .AddMySql(databaseSettings.ConnectionString, name: "ProductDb-mysql-check",
                 failureStatus: HealthStatus.Degraded);
+    }
+
+    public static void ConfigureSwagger(this IServiceCollection services)
+    {
+        var configuration = services.GetOption<ApiConfiguration>("ApiConfiguration");
+        if (configuration == null || string.IsNullOrEmpty(configuration.IssuerUri) ||
+            string.IsNullOrEmpty(configuration.ApiName)) throw new Exception("ApiConfiguration is not configured!");
+
+        services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1",
+                    new OpenApiInfo
+                    {
+                        Title = "Product API V1",
+                        Version = configuration.ApiVersion,
+                    });
+
+                c.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new OpenApiSecurityScheme
+                {
+                    Type = SecuritySchemeType.OAuth2,
+                    Flows = new OpenApiOAuthFlows
+                    {
+                        Implicit = new OpenApiOAuthFlow
+                        {
+                            AuthorizationUrl = new Uri($"{configuration.IdentityServerBaseUrl}/connect/authorize"),
+                            Scopes = new Dictionary<string, string>
+                            {
+                                { "microservices_api.read", "Microservices API Read Scope" },
+                                { "microservices_api.write", "Microservices API Write Scope" }
+                            }
+                        }
+                    }
+                });
+                
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = JwtBearerDefaults.AuthenticationScheme
+                            },
+                            Name = JwtBearerDefaults.AuthenticationScheme
+                        },
+                        new List<string>
+                        {
+                            "microservices_api.read", 
+                            "microservices_api.write"
+                        }
+                    }
+                });
+            });
+        
     }
 }
