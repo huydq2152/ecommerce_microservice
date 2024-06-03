@@ -3,7 +3,7 @@
 public enum CommandCode
 {
     CREATE,
-    UPDATE,
+    EDIT,
     DELETE,
     VIEW
 }

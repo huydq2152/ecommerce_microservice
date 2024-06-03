@@ -1,3 +1,4 @@
+using Infrastructure.Identity;
 using Infrastructure.Middlewares;
 using Ocelot.Middleware;
 using OcelotApiGw.Extensions;
@@ -20,31 +21,41 @@ try
 
     builder.Services.ConfigureOcelot(builder.Configuration);
     builder.Services.ConfigureCors(builder.Configuration);
+    builder.Services.ConfigureAuthenticationHandler();
 
     var app = builder.Build();
 
     if (app.Environment.IsDevelopment())
     {
-        app.UseSwagger();
-        app.UseSwaggerUI(
-            c => c.SwaggerEndpoint("/swagger/v1/swagger.json", $"{builder.Environment.ApplicationName} v1"));
+        // app.UseSwagger();
+        // app.UseSwaggerUI(
+        //     c => c.SwaggerEndpoint("/swagger/v1/swagger.json", $"{builder.Environment.ApplicationName} v1"));
     }
 
     app.UseCors("CorsPolicy");
     app.UseMiddleware<ErrorWrappingMiddleware>();
-    app.UseAuthentication();
+    // Ocelot just get token and give it to api endpoints authentication and authorization
+    // app.UseAuthentication();
     app.UseRouting();
-    app.UseAuthorization();
+    // app.UseAuthorization();
 
     app.UseEndpoints(endpoints =>
     {
-        endpoints.MapGet("/", async context =>
+        endpoints.MapGet("/",  context =>
         {
-            await context.Response.WriteAsync($"Hello, this is {builder.Environment.ApplicationName}");
+            // await context.Response.WriteAsync($"Hello, this is {builder.Environment.ApplicationName}");
+            context.Response.Redirect("swagger/index.html");
+            return Task.CompletedTask;
         });
     });
     
-    app.MapDefaultControllerRoute();
+    app.UseSwaggerForOcelotUI(
+        opt =>
+        {
+            opt.PathToSwaggerGenerator = "/swagger/docs";
+            opt.OAuthClientId("microservices_swagger");
+            opt.DisplayRequestDuration();
+        });
 
     await app.UseOcelot();
 

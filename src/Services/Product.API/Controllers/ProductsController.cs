@@ -77,7 +77,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpPut("{id:long}")]
-    [ClaimRequirement(FunctionCode.PRODUCT, CommandCode.UPDATE)]
+    [ClaimRequirement(FunctionCode.PRODUCT, CommandCode.EDIT)]
     public async Task<IActionResult> UpdateProduct([Required] long id, [FromBody] UpdateProductDto productDto)
     {
         var product = await _productRepository.GetProduct(id);

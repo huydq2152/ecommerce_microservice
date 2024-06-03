@@ -18,7 +18,6 @@
         }
       ]
     },
-    
     // Product api: http://localhost:5002/api/products
     {
       "UpstreamPathTemplate": "/products/{id}",
@@ -34,7 +33,15 @@
           "Host": "localhost",
           "Port": 5002
         }
-      ]
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
+//      "RouteClaimsRequirement": {
+//        "Role": "Admin"
+//      },
+      "SwaggerKey": "product-service"
     },
     {
       "UpstreamPathTemplate": "/products",
@@ -49,7 +56,15 @@
           "Host": "localhost",
           "Port": 5002
         }
-      ]
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
+      //      "RouteClaimsRequirement": {
+      //        "Role": "Admin"
+      //      },
+      "SwaggerKey": "product-service"
     },
     {
       "UpstreamPathTemplate": "/products/get-product-by-no/{productNo}",
@@ -63,7 +78,15 @@
           "Host": "localhost",
           "Port": 5002
         }
-      ]
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
+      //      "RouteClaimsRequirement": {
+      //        "Role": "Admin"
+      //      },
+      "SwaggerKey": "product-service"
     },
 
     // Basket api: http://localhost:5004/api/baskets
