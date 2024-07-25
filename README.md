@@ -90,17 +90,6 @@ docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d --remo
 - https://www.jetbrains.com/rider/
 - Install dotnet tool install --global dotnet-ef
 
-## References URLS
-
-- https://docs.microsoft.com/en-us/aspnet/core/tutorials/grpc/grpc-start?view=aspnetcore-6.0&tabs=visual-studio
-- https://docs.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis?view=aspnetcore-6.0
-- https://docs.microsoft.com/en-us/aspnet/core/tutorials/first-mongo-app?view=aspnetcore-6.0&tabs=visual-studio
-- https://docs.microsoft.com/en-us/aspnet/core/grpc/troubleshoot?view=aspnetcore-6.0
-- https://github.com/ThreeMammals/Ocelot
-- https://docs.microsoft.com/en-us/aspnet/core/fundamentals/logging/?view=aspnetcore-6.0
-- https://docs.microsoft.com/en-us/aspnet/web-api/overview/advanced/httpclient-message-handlers
-- https://github.com/dotnet-architecture/eShopOnContainers
-
 ## Docker Commands: (cd into folder contain file `docker-compose.yml`, `docker-compose.override.yml`)
 
 - Up & running:
@@ -115,6 +104,18 @@ docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d --remo
 docker-compose down
 ```
 
+# If docker desktop takes up too much disk space
+
+1. Run docker desktop
+2. Run cmd
+
+- docker system df
+- docker image prune
+- docker volume prune
+- docker builder prune
+
+3. Go to %APPDATA%\Docker or %LOCALAPPDATA%\Docker and delete this folder to delete all log file of docker
+
 ## Useful commands:
 
 - ASPNETCORE_ENVIRONMENT=Production dotnet ef database update
@@ -126,7 +127,3 @@ docker-compose down
   - dotnet ef migrations add "SampleMigration" -p Ordering.Infrastructure --startup-project Ordering.API -o Persistence/Migrations
   - dotnet ef migrations remove -p Ordering.Infrastructure --startup-project Ordering.API
   - dotnet ef database update -p Ordering.Infrastructure --startup-project Ordering.API
-
-## References
-
-- Microservice Course: [https://tedu.com.vn/khoa-hoc](https://tedu.com.vn/course-ref/49/C5D7O1.html)
